@@ -4,7 +4,7 @@ import SectionContainer from "@/components/SectionContainer";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUserSession } from "@/hooks/useUserSession";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const [email, setEmail] = useState("");
