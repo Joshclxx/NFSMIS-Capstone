@@ -34,7 +34,7 @@ const StudentAccount = () => {
             onClick={onLogout}
             className="px-4 py-2 bg-blue-600 text-white"
           >
-            Logout Po Ito
+            Logout po ito
           </button>
         </div>
       </div>
