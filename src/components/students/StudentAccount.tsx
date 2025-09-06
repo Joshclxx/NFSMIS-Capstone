@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/hooks/useUserSession";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@react-hot-toast";
 
 const StudentAccount = () => {
   const router = useRouter();
