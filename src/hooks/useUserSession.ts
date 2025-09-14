@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type UserRole = "masterAdmin" | "student" | null;
+export type UserRole = "admin" | "student" | null;
 
 type UserAccount = {
   userId: string | null;
@@ -42,13 +42,11 @@ export const useUserSession = create<UserAccount>()(
     }),
     {
       name: "user-session",
-      // Safe on SSR: falls back to in-memory until browser is available
       storage:
         typeof window !== "undefined"
           ? createJSONStorage(() => localStorage)
           : undefined,
       version: 1,
-      // (optional) migrate older shapes here if needed
     }
   )
 );

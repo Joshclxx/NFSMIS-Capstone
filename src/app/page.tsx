@@ -15,22 +15,20 @@ export default function Home() {
 
   useEffect(() => {
     if (loggedIn) {
-      if (userRole === "masterAdmin")
-        router.replace("/masterDashboard/adminDashboard");
-      else router.replace("/studentAccount");
+      if (userRole === "admin") router.replace("/admin/dashboard");
+      else router.replace("/tudent");
     }
   }, [loggedIn, userRole, router]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const role = email.endsWith("@iihc.edu") ? "masterAdmin" : "student";
+    const role = email.endsWith("@iihc.edu") ? "admin" : "student";
 
     setUser(email, role, email, Date.now());
 
-    if (role === "masterAdmin")
-      router.replace("/masterDashboard/adminDashboard");
-    else router.replace("/studentAccount");
+    if (role === "admin") router.replace("/admin/dashboard");
+    else router.replace("/student");
   };
 
   return (
