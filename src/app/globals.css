@@ -8,9 +8,11 @@
   --primary: #6f040f;
   --secondary: #2f5215;
   --tertiary: #fccf55;
+  --dark: #171717;
   --highlight-1: #b24851;
   --highight-2: #6c9e47;
   --button: #0064e6;
+  --textWhite: #f2f3f4;
 }
 
 @theme inline {
@@ -22,9 +24,11 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
+  --color-dark: var(--dark);
   --color-highlight-1: var(--highlight-1);
   --color-highlight-2: var(--highlight-2);
   --color-button: var(--button);
+  --color-textWhite: var(--textWhite);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -20,10 +20,10 @@ export default function Portal() {
 
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster position="bottom-right" />
       <div className="max-w-3xl mx-auto p-6">
-        <div className="flex items-center justify-between">
-          <p className="text-xl font-semibold">ADMIN DASHBOARD</p>
+        <div className="flex items-center justify-center">
+          <p className="text-xl font-semibold text-center">ADMIN DASHBOARD</p>
         </div>
       </div>
     </>
