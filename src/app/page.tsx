@@ -93,9 +93,9 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center">
               <div className="mt-5">
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 w-14 h-[1px] bg-black"></div>
-                  <p className="caption">or continue with</p>
-                  <div className="flex-1 w-14 h-[1px] bg-black"></div>
+                  <div className="flex-1 w-24 h-[1px] bg-black"></div>
+                  <p className="caption">or</p>
+                  <div className="flex-1 w-24 h-[1px] bg-black"></div>
                 </div>
               </div>
               <div className="container w-[224px] p-1 bg-background border-1 rounded-lg flex items-center justify-center gap-4 mt-5">

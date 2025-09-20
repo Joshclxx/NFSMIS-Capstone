@@ -14,8 +14,7 @@ const CredentialSection = () => {
                 key={ph}
                 type="text"
                 placeholder={ph}
-                className="flex-1 h-[42px] p-2 border bg-white/80 rounded-lg 
-                           focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+                className="flex-1 h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
               />
             ))}
           </div>
@@ -28,8 +27,7 @@ const CredentialSection = () => {
             <input
               type="text"
               placeholder="New / Transfer / Return"
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             />
           </div>
 
@@ -38,8 +36,7 @@ const CredentialSection = () => {
             <input
               type="text"
               placeholder="1st Year 11A1"
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             />
           </div>
         </div>
@@ -50,8 +47,7 @@ const CredentialSection = () => {
             <label className="body-text font-bold mb-2">Course</label>
             <select
               defaultValue=""
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             >
               <option value="" disabled>
                 Select Course
@@ -68,8 +64,7 @@ const CredentialSection = () => {
             <label className="body-text font-bold mb-2">Status</label>
             <select
               defaultValue=""
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             >
               <option value="" disabled>
                 Select Status
@@ -84,8 +79,7 @@ const CredentialSection = () => {
             <input
               type="number"
               placeholder="2200000"
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             />
           </div>
         </div>
@@ -115,8 +109,7 @@ const CredentialSection = () => {
             <label className="body-text font-bold mb-2">Gender</label>
             <select
               defaultValue=""
-              className="h-[42px] p-2 border bg-white/80 rounded-lg 
-                         focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
+              className="h-[42px] p-2 border bg-white/80 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/80 shadow-xl"
             >
               <option value="" disabled>
                 Select Gender

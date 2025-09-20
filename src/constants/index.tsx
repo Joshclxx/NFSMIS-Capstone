@@ -9,10 +9,10 @@ const ADMIN_NAV: NAV_ITEMS[] = [
   {
     title: "Students",
     children: [
-      { title: "Classes", path: "/studentAccount/students" },
+      { title: "Classes", path: "/admin/classes" },
       { title: "Enrollment", path: "/admin/enrollment" },
       { title: "Academic Records", path: "/studentAccount/records" },
-      { title: "Learning Modules", path: "/studentAccount/modules" },
+      { title: "Learning Modules", path: "/admin/learning-module" },
     ],
   },
 ];
