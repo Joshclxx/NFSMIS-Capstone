@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import SectionContainer from "@/components/SectionContainer";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +9,7 @@ const Enrollment = () => {
   const data = [
     {
       id: 2200048,
-      name: "Mariel Krisjean Alaan",
+      student: "Mariel Krisjean Alaan",
       course: "BSIS",
       year: "4th Year",
       status: "Active",
@@ -17,7 +17,7 @@ const Enrollment = () => {
     },
     {
       id: 2200049,
-      name: "Joshua Colobong Paet",
+      student: "Joshua Colobong Paet",
       course: "BSIS",
       year: "4th Year",
       status: "Active",
@@ -25,7 +25,7 @@ const Enrollment = () => {
     },
     {
       id: 2200050,
-      name: "Jaylord Sogulon",
+      student: "Jaylord Sogulon",
       course: "BSIS",
       year: "4th Year",
       status: "Active",
@@ -33,7 +33,7 @@ const Enrollment = () => {
     },
     {
       id: 2200051,
-      name: "Jenelyn Manalo",
+      student: "Jenelyn Manalo",
       course: "BSIS",
       year: "4th Year",
       status: "Active",
@@ -41,7 +41,7 @@ const Enrollment = () => {
     },
     {
       id: 2200052,
-      name: "Ian Joseph Belgica",
+      student: "Ian Joseph Belgica",
       course: "BSIS",
       year: "4th Year",
       status: "Active",
@@ -53,6 +53,24 @@ const Enrollment = () => {
     router.push("/admin/registration");
   };
 
+  // STATES
+  const [searchStudent, setSearchStudent] = useState("");
+  const [year, setYear] = useState("");
+  const [course, setCourse] = useState("");
+  const [status, setStatus] = useState("");
+
+  // FILTERING
+  const filterData = data.filter((item) => {
+    const matchesStudent = item.student
+      .toLowerCase()
+      .includes(searchStudent.toLowerCase());
+    const matchesYear = year ? item.year === year : true;
+    const matchesStatus = status ? item.status === status : true;
+    const matchesCourse = course ? item.course === course : true;
+
+    return matchesStudent && matchesStatus && matchesYear && matchesCourse;
+  });
+
   return (
     <SectionContainer background="mt-12 px-4">
       <div className="container bg-background w-full py-4 rounded-lg px-2 shadow-lg">
@@ -62,6 +80,8 @@ const Enrollment = () => {
             <input
               type="text"
               placeholder="Student's Name"
+              value={searchStudent}
+              onChange={(e) => setSearchStudent(e.target.value)}
               className="rounded-lg bg-background border shadow p-2 w-full focus:outline-none focus:ring-1"
             />
             <img
@@ -73,50 +93,93 @@ const Enrollment = () => {
           </div>
 
           <div className="flex gap-4 relative z-10">
+            {/* COURSE */}
             <div className="relative w-[132px]">
               <details className="group">
                 <summary className="bg-background p-2 border rounded-md cursor-pointer">
-                  Course
+                  {course || "Course"}
                 </summary>
                 <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
-                  <li>BSIS</li>
-                  <li>BSA</li>
-                  <li>BSAIS</li>
-                  <li>BSTM</li>
-                  <li>BSCRIM</li>
-                  <li>BTVTED</li>
+                  {["BSIS", "BSA", "BSAIS", "BSTM", "BSCRIM", "BTVTED"].map(
+                    (c) => (
+                      <li
+                        key={c}
+                        className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
+                        onClick={() => setCourse(c)}
+                      >
+                        {c}
+                      </li>
+                    )
+                  )}
+                  <li
+                    className="cursor-pointer text-primary hover:bg-secondary/50 p-1 rounded"
+                    onClick={() => setCourse("")}
+                  >
+                    Clear
+                  </li>
                 </ul>
               </details>
             </div>
+
+            {/* YEAR */}
             <div className="relative w-[132px]">
               <details className="group">
                 <summary className="bg-background p-2 border rounded-md cursor-pointer">
-                  Year Level
+                  {year || "Year Level"}
                 </summary>
                 <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
-                  <li>1st Year</li>
-                  <li>2nd Year</li>
-                  <li>3rd Year</li>
-                  <li>4th Year</li>
+                  {[...new Set(data.map((i) => i.year))].map((s) => (
+                    <li
+                      key={s}
+                      className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
+                      onClick={() => setYear(s)}
+                    >
+                      {s}
+                    </li>
+                  ))}
+                  <li
+                    className="cursor-pointer text-primary hover:bg-secondary/50 p-1 rounded"
+                    onClick={() => setYear("")}
+                  >
+                    Clear
+                  </li>
                 </ul>
               </details>
             </div>
+
+            {/* STATUS */}
             <div className="relative w-[132px]">
               <details className="group">
                 <summary className="bg-background p-2 border rounded-md cursor-pointer">
-                  Status
+                  {status || "Status"}
                 </summary>
                 <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
-                  <li>Active</li>
-                  <li>In-Active</li>
+                  {["Active", "In-Active"].map((e) => (
+                    <li
+                      key={e}
+                      className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
+                      onClick={() => setStatus(e)}
+                    >
+                      {e}
+                    </li>
+                  ))}
+                  <li
+                    className="cursor-pointer text-primary hover:bg-secondary/50 p-1 rounded"
+                    onClick={() => setStatus("")}
+                  >
+                    Clear
+                  </li>
                 </ul>
               </details>
             </div>
+
             <button onClick={handleAdd} className="bg-[#2F5215] p-1 rounded-lg">
               <p className="text-background px-4 font-bold">+ Add</p>
             </button>
           </div>
         </div>
+
+        {/* TABLE */}
         <div className="overflow-x-auto mt-12">
           <table className="min-w-full border border-foreground body-text text-center">
             <thead>
@@ -130,16 +193,24 @@ const Enrollment = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((person) => (
-                <tr key={person.id} className="body-text odd:bg-[#2F5215]/30">
-                  <td className="py-2 border-b">{person.id}</td>
-                  <td className="py-2 border-b">{person.name}</td>
-                  <td className="py-2 border-b">{person.course}</td>
-                  <td className="py-2 border-b">{person.year}</td>
-                  <td className="py-2 border-b">{person.status}</td>
-                  <td className="py-2 border-b">{person.gender}</td>
+              {filterData.length > 0 ? (
+                filterData.map((person) => (
+                  <tr key={person.id} className="body-text odd:bg-[#2F5215]/30">
+                    <td className="py-2 border-b">{person.id}</td>
+                    <td className="py-2 border-b">{person.student}</td>
+                    <td className="py-2 border-b">{person.course}</td>
+                    <td className="py-2 border-b">{person.year}</td>
+                    <td className="py-2 border-b">{person.status}</td>
+                    <td className="py-2 border-b">{person.gender}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center text-primary">
+                    No records found
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
