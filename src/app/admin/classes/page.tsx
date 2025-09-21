@@ -155,24 +155,24 @@ export default function Portal() {
         <table className="min-w-full border-white body-text text-textWhite text-center">
           <thead>
             <tr className="bg-primary">
-              <th className="py-2 border-b">ROOM</th>
-              <th className="py-2 border-b">SUBJECT</th>
-              <th className="py-2 border-b">SECTION</th>
-              <th className="py-2 border-b">TEACHER</th>
-              <th className="py-2 border-b">COURSE</th>
-              <th className="py-2 border-b">GRADE LEVEL</th>
+              <th className="table-style">ROOM</th>
+              <th className="table-style">SUBJECT</th>
+              <th className="table-style">SECTION</th>
+              <th className="table-style">TEACHER</th>
+              <th className="table-style">COURSE</th>
+              <th className="table-style">GRADE LEVEL</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((list, index) => (
                 <tr key={index} className="text-dark odd:bg-[#2f5215]/30">
-                  <td className="py-2 border-b">{list.room}</td>
-                  <td className="py-2 border-b">{list.subject}</td>
-                  <td className="py-2 border-b">{list.section}</td>
-                  <td className="py-2 border-b">{list.teacher}</td>
-                  <td className="py-2 border-b">{list.course}</td>
-                  <td className="py-2 border-b">{list.gradeLevel}</td>
+                  <td className="table-style">{list.room}</td>
+                  <td className="table-style">{list.subject}</td>
+                  <td className="table-style">{list.section}</td>
+                  <td className="table-style">{list.teacher}</td>
+                  <td className="table-style">{list.course}</td>
+                  <td className="table-style">{list.gradeLevel}</td>
                 </tr>
               ))
             ) : (
