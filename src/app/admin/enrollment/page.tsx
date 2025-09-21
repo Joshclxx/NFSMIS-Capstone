@@ -184,24 +184,24 @@ const Enrollment = () => {
           <table className="min-w-full border border-foreground body-text text-center">
             <thead>
               <tr className="bg-tertiary">
-                <th className="py-2 border-b">ID Number</th>
-                <th className="py-2 border-b">Fullname</th>
-                <th className="py-2 border-b">Course</th>
-                <th className="py-2 border-b">Year Level</th>
-                <th className="py-2 border-b">Status</th>
-                <th className="py-2 border-b">Gender</th>
+                <th className="table-style">ID Number</th>
+                <th className="table-style">Fullname</th>
+                <th className="table-style">Course</th>
+                <th className="table-style">Year Level</th>
+                <th className="table-style">Status</th>
+                <th className="table-style">Gender</th>
               </tr>
             </thead>
             <tbody>
               {filterData.length > 0 ? (
                 filterData.map((person) => (
                   <tr key={person.id} className="body-text odd:bg-[#2F5215]/30">
-                    <td className="py-2 border-b">{person.id}</td>
-                    <td className="py-2 border-b">{person.student}</td>
-                    <td className="py-2 border-b">{person.course}</td>
-                    <td className="py-2 border-b">{person.year}</td>
-                    <td className="py-2 border-b">{person.status}</td>
-                    <td className="py-2 border-b">{person.gender}</td>
+                    <td className="table-style">{person.id}</td>
+                    <td className="table-style">{person.student}</td>
+                    <td className="table-style">{person.course}</td>
+                    <td className="table-style">{person.year}</td>
+                    <td className="table-style">{person.status}</td>
+                    <td className="table-style">{person.gender}</td>
                   </tr>
                 ))
               ) : (
