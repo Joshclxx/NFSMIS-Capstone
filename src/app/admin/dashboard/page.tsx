@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUserSession } from "@/hooks/useUserSession";
 import { Toaster } from "react-hot-toast";
 
-export default function Portal() {
+export default function Dashboard() {
   const router = useRouter();
 
   const loggedIn = useUserSession((s) => s.loggedIn);

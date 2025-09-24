@@ -1,13 +1,19 @@
 export type NAV_ITEMS = {
   title: string;
   path?: string;
+  icon?: React.ReactNode;
   children?: NAV_ITEMS[];
 };
 
 const ADMIN_NAV: NAV_ITEMS[] = [
-  { title: "Dashboard", path: "/admin/dashboard" },
+  {
+    title: "Dashboard",
+    path: "/admin/dashboard",
+    icon: "/icons/dashboardIcon.svg",
+  },
   {
     title: "Students",
+    icon: "/icons/studentManagement.svg",
     children: [
       { title: "Classes", path: "/admin/classes" },
       { title: "Enrollment", path: "/admin/enrollment" },
