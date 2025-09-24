@@ -72,8 +72,8 @@ const Enrollment = () => {
   });
 
   return (
-    <SectionContainer background="mt-12 px-4">
-      <div className="container bg-background w-full py-4 rounded-lg px-2 shadow-lg">
+    <SectionContainer background="mt-12">
+      <div className="container bg-white w-full py-4 rounded-lg px-2 shadow-lg">
         <p className="sub-heading">COLLEGE STUDENT LIST</p>
         <div className="mt-4 flex justify-between gap-2 w-full">
           <div className="relative w-[355px]">
@@ -195,7 +195,7 @@ const Enrollment = () => {
             <tbody>
               {filterData.length > 0 ? (
                 filterData.map((person) => (
-                  <tr key={person.id} className="body-text odd:bg-[#2F5215]/30">
+                  <tr key={person.id} className="body-text odd:bg-secondary/30">
                     <td className="table-style">{person.id}</td>
                     <td className="table-style">{person.student}</td>
                     <td className="table-style">{person.course}</td>

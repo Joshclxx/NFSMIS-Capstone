@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import SectionContainer from "@/components/SectionContainer";
 
-export default function Portal() {
+export default function Classes() {
   const information = [
     {
       room: 204,
@@ -72,9 +72,9 @@ export default function Portal() {
   });
 
   return (
-    <SectionContainer background="mt-12 px-4">
+    <SectionContainer background="mt-12">
       {/* SEARCH & DROPDOWNS */}
-      <div className="flex justify-between gap-4 w-full sticky top-0 bg-background z-10 py-2">
+      <div className="flex justify-between gap-4 w-full sticky top-0 bg-white shadow-style rounded-lg p-4 z-10">
         {/* SEARCH TEACHER */}
         <div className="relative w-[364px]">
           <img
@@ -88,7 +88,7 @@ export default function Portal() {
             placeholder="Teacher Name"
             value={searchTeacher}
             onChange={(e) => setSearchTeacher(e.target.value)}
-            className="rounded-lg bg-background border shadow p-2 w-full focus:outline-none focus:ring-1"
+            className="rounded-lg bg-white border shadow p-2 w-full focus:outline-none focus:ring-1"
           />
         </div>
 
@@ -97,10 +97,10 @@ export default function Portal() {
           {/* COURSE DROPDOWN */}
           <div className="relative w-[132px]">
             <details className="group">
-              <summary className="bg-background p-2 border rounded-md cursor-pointer">
+              <summary className="bg-white p-2 border rounded-md cursor-pointer">
                 {course || "Course"}
               </summary>
-              <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
+              <ul className="absolute left-0 mt-1 w-full bg-white border rounded-md shadow-md p-2 z-20">
                 {["BSIS", "BSA", "BSAIS", "BSTM", "BSCRIM", "BTVTED"].map(
                   (c) => (
                     <li
@@ -113,7 +113,7 @@ export default function Portal() {
                   )
                 )}
                 <li
-                  className="cursor-pointer text-red-500 hover:bg-gray-200 p-1 rounded"
+                  className="cursor-pointer text-primary hover:bg-gray-200 p-1 rounded"
                   onClick={() => setCourse("")}
                 >
                   Clear
@@ -125,10 +125,10 @@ export default function Portal() {
           {/* SECTION DROPDOWN */}
           <div className="relative w-[132px]">
             <details className="group">
-              <summary className="bg-background p-2 border rounded-md cursor-pointer">
+              <summary className="bg-white p-2 border rounded-md cursor-pointer">
                 {section || "Section"}
               </summary>
-              <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
+              <ul className="absolute left-0 mt-1 w-full bg-white border rounded-md shadow-md p-2 z-20">
                 {[...new Set(information.map((i) => i.section))].map((s) => (
                   <li
                     key={s}
@@ -151,7 +151,7 @@ export default function Portal() {
       </div>
 
       {/* TABLE */}
-      <div className="overflow-x-auto mt-6 scroll-smooth">
+      <div className="overflow-x-auto mt-6 scroll-smooth bg-white p-4 shadow-style rounded-lg">
         <table className="min-w-full border-white body-text text-textWhite text-center">
           <thead>
             <tr className="bg-primary">

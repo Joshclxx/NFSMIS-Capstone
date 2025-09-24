@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import SectionContainer from "@/components/SectionContainer";
 
-export default function Portal() {
+export default function LearningModule() {
   const information = [
     {
       room: 204,
@@ -16,75 +17,43 @@ export default function Portal() {
   ];
 
   return (
-    <SectionContainer background="mt-12 px-4">
-      <div className="flex justify-between gap-4 w-full">
-        {/* SEARCH & DROPDOWN */}
-        <div className="relative w-[364px]">
-          <img
-            src="/icons/search-icon.svg"
-            alt="Icon"
-            width={21}
-            className="absolute right-3 top-2.5 w-5 h-5 cursor-pointer"
-          />
-          <input
-            type="text"
-            placeholder="Student Name"
-            className="rounded-lg bg-background border shadow p-2 w-full focus:outline-none focus:ring-1"
-          />
-        </div>
-        <div className="flex justify-between gap-4">
-          <div className="relative w-[132px]">
-            <details className="group">
-              <summary className="bg-background p-2 border rounded-md cursor-pointer">
-                Course
-              </summary>
-              <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
-                <li>BSIS</li>
-                <li>BSA</li>
-                <li>BSAIS</li>
-                <li>BSTM</li>
-                <li>BSCRIM</li>
-                <li>BTVTED</li>
-              </ul>
-            </details>
-          </div>
-          <div className="relative w-[132px]">
-            <details className="group">
-              <summary className="bg-background p-2 border rounded-md cursor-pointer">
-                Year Level
-              </summary>
-              <ul className="absolute left-0 mt-1 w-full bg-background border rounded-md shadow-md p-2 z-20">
-                <li>1st Year</li>
-                <li>2nd Year</li>
-                <li>3rd Year</li>
-                <li>4th Year</li>
-              </ul>
-            </details>
+    <SectionContainer background="mt-12">
+      <div className="container bg-white w-full h-screen p-4 shadow-lg rounded-lg">
+        <div className="flex justify-between items-center">
+          <p className="heading">LEARNING MODULE</p>
+          <div className="bg-secondary py-2 px-8 rounded-lg hover:scale-105 transition-transform cursor-pointer">
+            <p className="body-text font-bold text-white">COLLEGE</p>
           </div>
         </div>
-      </div>
 
-      {/* TABLE */}
-      <div className="overflow-x-auto mt-12">
-        <table className="min-w-full border-white body-text text-textWhite text-center">
-          <thead>
-            <tr className="bg-primary">
-              <th className="py-2 border-b">ROOM</th>
-              <th className="py-2 border-b">SUBJECT</th>
-              <th className="py-2 border-b">SECTION</th>
-              <th className="py-2 border-b">TEACHER</th>
-              <th className="py-2 border-b">COURSE</th>
-              <th className="py-2 border-b">GRADE</th>
-            </tr>
-          </thead>
-          {/* <tbody>
-            {information.map((list) => (
-                <tr key={list.}>
+        <div className="flex justify-start gap-4 mt-[72px]">
+          <Link
+            href="/admin/curriculum-management"
+            className="flex flex-col gap-2"
+          >
+            <img
+              src="/icons/folder.svg"
+              alt="Folder"
+              width={164}
+              height={164}
+              className="cursor-pointer hover:scale-105 transition-transform"
+            />
+            <p className="body-text text-center w-[164px]">
+              Bachelor of Science in Information System
+            </p>
+          </Link>
 
-                </tr>
-            ))}
-          </tbody> */}
-        </table>
+          <div className="flex flex-col gap-2">
+            <img
+              src="/icons/create-folder.svg"
+              alt="Folder"
+              width={164}
+              height={164}
+              className="cursor-pointer hover:scale-105 transition-transform"
+            />
+            <p className="body-text text-center w-[164px]">Create Folder</p>
+          </div>
+        </div>
       </div>
     </SectionContainer>
   );

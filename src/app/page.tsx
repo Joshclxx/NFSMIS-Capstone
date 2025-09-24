@@ -1,5 +1,4 @@
 "use client";
-
 import SectionContainer from "@/components/SectionContainer";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,65 +9,59 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
   const { loggedIn, userRole, setUser, logout } = useUserSession();
 
   useEffect(() => {
     if (loggedIn) {
       if (userRole === "admin") router.replace("/admin/dashboard");
-      else router.replace("/tudent");
+      else router.replace("/student");
     }
   }, [loggedIn, userRole, router]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     const role = email.endsWith("@iihc.edu") ? "admin" : "student";
-
     setUser(email, role, email, Date.now());
-
     if (role === "admin") router.replace("/admin/dashboard");
     else router.replace("/student");
   };
 
   return (
-    <SectionContainer background="mt-1 h-auto">
-      <div className="flex items-center justify-center">
-        <img
-          src="/icons/iihc-logo.svg"
-          alt="IIH College Logo"
-          className="w-[240px] h-[240px]"
-        />
-      </div>
+    <div className="px-4">
+      <div className="w-full max-w-5xl bg-white flex flex-col md:flex-row shadow-style rounded-2xl overflow-hidden">
+        {/* Login Form */}
+        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
+            Welcome Back
+          </h2>
+          <p className="text-center text-gray-500 mb-8">Batang Ayah & Zian</p>
 
-      <div className="flex items-center justify-center">
-        <form
-          onSubmit={onSubmit}
-          className="w-[710px] h-[519px] bg-background rounded-lg shadow-2xl"
-        >
-          <p className="heading text-center mt-4">Login</p>
-
-          <div className="flex flex-col items-center justify-center mt-12">
-            <label className="flex flex-col justify-end caption gap-2">
-              <p className="font-bold">Email:</p>
+          {/* Form */}
+          <form onSubmit={onSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="Enter your email"
                 required
-                className="p-2 border rounded-lg w-[460px]"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
-            </label>
+            </div>
 
-            <label className="flex flex-col justify-end caption gap-2 mt-6">
-              <p className="font-bold">Password:</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
               <input
                 type="password"
                 placeholder="Enter your password"
                 required
-                className="p-2 border rounded-lg w-[460px]"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -76,42 +69,54 @@ export default function Home() {
               <button
                 type="button"
                 onClick={logout}
-                className="caption underline text-left"
+                className="text-sm text-button mt-2 hover:underline"
               >
-                Forget Password?
+                Forgot password?
               </button>
-            </label>
+            </div>
 
             <button
               onClick={() => toast.success("Login Successful!")}
               type="submit"
-              className="w-[224px] p-2 bg-button text-white button-text rounded-xl mt-12 hover:bg-button/85"
+              className="w-full py-3 bg-button text-white rounded-lg font-semibold hover:bg-blue-700 transition"
             >
               Login
             </button>
 
-            <div className="flex flex-col items-center justify-center">
-              <div className="mt-5">
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 w-24 h-[1px] bg-black"></div>
-                  <p className="caption">or</p>
-                  <div className="flex-1 w-24 h-[1px] bg-black"></div>
-                </div>
-              </div>
-              <div className="container w-[224px] p-1 bg-background border-1 rounded-lg flex items-center justify-center gap-4 mt-5">
-                <img
-                  src="/icons/google-login.svg"
-                  alt="Google Login Icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <button className="button-text text-foreground">
-                  Sign in with Email
-                </button>
-              </div>
+            {/* Divider */}
+            <div className="flex items-center gap-2">
+              <div className="flex-1 h-px bg-gray-300"></div>
+              <span className="text-sm text-gray-500">or</span>
+              <div className="flex-1 h-px bg-gray-300"></div>
             </div>
-          </div>
-        </form>
+
+            {/* Google login */}
+            <button
+              type="button"
+              className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg hover:bg-gray-50 transition"
+            >
+              <img
+                src="/icons/google-login.svg"
+                alt="Google Login Icon"
+                className="w-5 h-5"
+              />
+              <span className="font-medium">Sign in with Google</span>
+            </button>
+          </form>
+        </div>
+
+        {/* RIGHT: Branding */}
+        <div className="hidden md:flex w-1/2 bg-gradient-to-br from-[#6f040f] to-red-900 text-white flex-col items-center justify-center">
+          <img
+            src="/icons/iihc-logo.svg"
+            alt="Illustration"
+            className="w-64 h-64 mb-6"
+          />
+          <p className="sub-heading text-center">
+            Integrated Innovation and Hospitality Colleges, Inc.
+          </p>
+        </div>
       </div>
-    </SectionContainer>
+    </div>
   );
 }
