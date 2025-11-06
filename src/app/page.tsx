@@ -106,11 +106,14 @@ export default function Home() {
         </div>
 
         {/* RIGHT: Branding */}
-        <div className="hidden md:flex w-1/2 bg-gradient-to-br from-[#6f040f] to-red-900 text-white flex-col items-center justify-center">
+        <div
+          className="hidden md:flex w-1/2 text-white flex-col items-center justify-center"
+          style={{ backgroundImage: "url('/images/login-image.svg')" }}
+        >
           <img
             src="/icons/iihc-logo.svg"
             alt="Illustration"
-            className="w-64 h-64 mb-6"
+            className="w-64 h-64 mb-4"
           />
           <p className="sub-heading text-center">
             Integrated Innovation and Hospitality Colleges, Inc.

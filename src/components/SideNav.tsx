@@ -53,14 +53,16 @@ export default function SideNav({ role, minimized = false }: SideNavProps) {
                   />
                 )}
                 {!minimized && (
-                  <span className="font-semibold">{item.title}</span>
+                  <span className="font-semibold text-primary">
+                    {item.title}
+                  </span>
                 )}
               </button>
             ) : item.path ? (
               <Link
                 href={item.path}
                 onClick={() => setActiveId(id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded
+                className={`flex text-primary items-center gap-2 px-4 py-2 rounded
                   ${isActive ? "bg-primary/10" : "hover:bg-primary/10"}`}
               >
                 {item.icon && (
@@ -87,7 +89,7 @@ export default function SideNav({ role, minimized = false }: SideNavProps) {
                   isOpen ? "max-h-96" : "max-h-0"
                 }`}
               >
-                <div className="pt-1">
+                <div className="pt-1 text-primary">
                   {renderItems(item.children!, [...trail, item.title])}
                 </div>
               </div>

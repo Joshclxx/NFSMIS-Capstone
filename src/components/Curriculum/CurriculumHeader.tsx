@@ -6,7 +6,7 @@ const CurriculumHeader = () => {
 
   return (
     <>
-      <div className="container bg-background flex justify-end gap-4 py-4 px-12 rounded-lg shadow-style">
+      <div className="container bg-white flex justify-end gap-4 py-4 px-12 rounded-lg shadow-style">
         <img
           src="/icons/table-icon.svg"
           alt="table icon"

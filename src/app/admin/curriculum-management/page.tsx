@@ -3,7 +3,7 @@
 import React from "react";
 import SectionContainer from "../../../components/SectionContainer";
 import { useRouter } from "next/navigation";
-import CurriculumHeader from "@/components/Curriculum/CurriculumHeader";
+// import CurriculumHeader from "@/components/Curriculum/CurriculumHeader";
 import CurriculumTable from "@/components/Curriculum/CurriculumTable";
 
 export default function Curriculum() {
@@ -11,7 +11,7 @@ export default function Curriculum() {
 
   return (
     <SectionContainer background="mt-12 px-4">
-      <div className="container bg-background shadow-lg w-full h-auto p-4">
+      <div className="container bg-background w-full h-auto p-4">
         <p
           className="sub-heading cursor-pointer"
           onClick={() => router.push("/admin/learning-module")}
@@ -29,9 +29,7 @@ export default function Curriculum() {
         </div>
 
         {/* HEADER */}
-        <div className="mt-16">
-          <CurriculumHeader />
-        </div>
+        <div className="mt-16">{/* <CurriculumHeader /> */}</div>
 
         {/* TABLE */}
         <div className="mt-9">

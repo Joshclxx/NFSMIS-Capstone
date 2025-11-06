@@ -1,5 +1,4 @@
 "use client";
-
 import { usePathname } from "next/navigation";
 import SideNav from "./SideNav";
 import Header from "./Header";
@@ -13,10 +12,12 @@ export default function ClientLayout({
 }) {
   const role = useUserRole();
   const pathname = usePathname();
-  const hideSideNav = pathname === "/";
-  const hideHeader = pathname === "/";
 
-  // Sidebar minimized state
+  // HIDE SIDE BAR, DEPENDS ON ROUTE
+  const routesWithoutSidebar = ["/", "/student/curriculum-management"];
+  const hideSideNav = routesWithoutSidebar.includes(pathname);
+  const hideHeader = routesWithoutSidebar.includes(pathname);
+
   const [minimized, setMinimized] = useState(false);
 
   if (hideSideNav && hideHeader) {
