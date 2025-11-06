@@ -464,53 +464,47 @@ const SubjectTable: React.FC<SubjectTableProps> = ({ year, sem, subjects }) => {
   const totalLab = subjects.reduce((sum, s) => sum + s.lab, 0);
 
   // TABLE COMPONENT
-  return (
-    <div>
-      <div className="flex justify-between mb-2">
-        <p className="font-semibold">{year}</p>
-        <p className="italic">{sem}</p>
-      </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border border-dark/25 text-sm">
-          <thead className="bg-primary text-textWhite">
-            <tr>
-              <th className="table-style px-2 text-center">Course Code</th>
-              <th className="table-style px-2 text-center">Course Title</th>
-              <th className="table-style px-2 text-center">Units</th>
-              <th className="table-style px-2 text-center">Lec Hours</th>
-              <th className="table-style px-2 text-center">Lab Hours</th>
-              <th className="table-style px-2 text-center">
-                Prerequisite <br />
-                <span>(Co-Requisite)</span>
-              </th>
+  return (
+    <div className="overflow-x-auto flex-1 flex flex-col h-full">
+      <table className="w-full table-fixed border border-dark/25 text-center text-sm flex-1">
+        <thead className="bg-primary text-textWhite">
+          <tr>
+            <th className="table-style px-1 w-[15%]">Course Code</th>
+            <th className="table-style px-1 w-[35%]">Course Title</th>
+            <th className="table-style px-1 w-[10%]">Units</th>
+            <th className="table-style px-1 w-[10%]">Lec Hours</th>
+            <th className="table-style px-1 w-[10%]">Lab Hours</th>
+            <th className="table-style px-1 w-[20%]">
+              Prerequisite <br />
+              <span>(Co-Requisite)</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {subjects.map((s, i) => (
+            <tr key={i}>
+              <td className="table-style px-1">{s.code}</td>
+              <td className="table-style px-1">{s.title}</td>
+              <td className="table-style px-1">{s.units}</td>
+              <td className="table-style px-1">{s.lec}</td>
+              <td className="table-style px-1">{s.lab}</td>
+              <td className="table-style px-1">{s.preReq}</td>
             </tr>
-          </thead>
-          <tbody>
-            {subjects.map((s, i) => (
-              <tr key={i}>
-                <td className="table-style px-2 text-center">{s.code}</td>
-                <td className="table-style px-2 text-center">{s.title}</td>
-                <td className="table-style px-2 text-center">{s.units}</td>
-                <td className="table-style px-2 text-center">{s.lec}</td>
-                <td className="table-style px-2 text-center">{s.lab}</td>
-                <td className="table-style px-2 text-center">{s.preReq}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr className="font-semibold bg-background">
-              <td colSpan={2} className="table-style px-2 text-center">
-                Total
-              </td>
-              <td className="table-style px-2 text-center">{totalUnits}</td>
-              <td className="table-style px-2 text-center">{totalLec}</td>
-              <td className="table-style px-2 text-center">{totalLab}</td>
-              <td className="table-style px-2 text-center"></td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr className="font-semibold bg-background">
+            <td colSpan={2} className="table-style px-2">
+              Total
+            </td>
+            <td className="table-style px-1">{totalUnits}</td>
+            <td className="table-style px-1">{totalLec}</td>
+            <td className="table-style px-1">{totalLab}</td>
+            <td className="table-style px-1"></td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   );
 };
@@ -519,15 +513,22 @@ const CurriculumTable: React.FC = () => {
   return (
     <div className="w-full space-y-8">
       {Object.entries(curriculum).map(([year, sems]) => (
-        <div key={year} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {Object.entries(sems).map(([sem, subjects]) => (
-            <SubjectTable
-              key={year + sem}
-              year={year}
-              sem={sem}
-              subjects={subjects}
-            />
-          ))}
+        <div key={year}>
+          {/* Unified Header */}
+          <div className="bg-primary text-textWhite py-2 px-4 font-bold flex justify-between">
+            <span>1st Semester</span>
+            <span>{year}</span>
+            <span>2nd Semester</span>
+          </div>
+
+          {/* Semester Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4 items-stretch">
+            {Object.entries(sems).map(([sem, subjects]) => (
+              <div key={year + sem} className="flex flex-col h-full">
+                <SubjectTable year={year} sem={sem} subjects={subjects} />
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>

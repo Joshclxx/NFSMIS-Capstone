@@ -21,6 +21,31 @@ const ADMIN_NAV: NAV_ITEMS[] = [
       { title: "Learning Modules", path: "/admin/learning-module" },
     ],
   },
+  {
+    title: "Faculty",
+    path: "/admin/dashboard",
+    icon: "/icons/faculty.svg",
+  },
+  {
+    title: "Guidance",
+    path: "/admin/dashboard",
+    icon: "/icons/guidance.svg",
+  },
+  {
+    title: "Schedule",
+    path: "/admin/dashboard",
+    icon: "/icons/schedule.svg",
+  },
+  {
+    title: "Request",
+    path: "/admin/dashboard",
+    icon: "/icons/request.svg",
+  },
+  {
+    title: "Accounts",
+    path: "/admin/dashboard",
+    icon: "/icons/accounts.svg",
+  },
 ];
 
 const STUDENT_NAV: NAV_ITEMS[] = [
