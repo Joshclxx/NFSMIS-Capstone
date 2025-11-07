@@ -17,7 +17,7 @@ export function getClientIp(req: NextRequest) {
     }
 }
 
-export function getClientFingerprint (req: NextRequest) {
+export function hashClientDevice (req: NextRequest) {
     const deviceFingerprint = {
         userAgent: req.headers.get("user-agent") || "",
         acceptLang: req.headers.get("accept-language") || "",
