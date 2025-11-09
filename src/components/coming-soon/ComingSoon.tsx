@@ -1,15 +1,18 @@
 import React from "react";
+import Image from "next/image";
 import SectionContainer from "../SectionContainer";
 
 const ComingSoon = () => {
   return (
-    <SectionContainer background="mt-12">
+    <div className="relative flex flex-col items-center justify-center h-[932px] p-6 overflow-hidden z-1">
       <div className="relative flex items-center justify-center text-center">
         {/* Background Image */}
-        <img
+        <Image
           src="/images/coming-soon.svg"
           alt="Coming Soon"
           className="w-full h-[1088px] object-contain"
+          width={932}
+          height={1132}
         />
 
         {/* Overlay Text */}
@@ -26,7 +29,7 @@ const ComingSoon = () => {
           </button>
         </div>
       </div>
-    </SectionContainer>
+    </div>
   );
 };
 
