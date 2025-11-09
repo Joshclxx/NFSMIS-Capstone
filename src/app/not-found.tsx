@@ -12,32 +12,30 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen p-6 overflow-hidden z-1">
+    <div className="relative flex flex-col items-center justify-center h-[932px] p-6 overflow-hidden z-1">
       <GridShape />
       <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
-        <h2 className="text-2xl font-semibold text-dark mb-4">
-          Page Not Found
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
+        <p className="not-found-description mb-[40px] max-w-md">
           Sorry, the page you’re looking for doesn’t exist or has been moved.
         </p>
 
         <Image
-          src="/error/404.svg"
+          src="/error/404-page.svg"
           alt="404"
           className="dark:hidden"
           width={472}
           height={152}
         />
         <Image
-          src="/error/404-dark.svg"
+          src="/error/404-page.svg"
           alt="404"
           className="hidden dark:block"
           width={472}
           height={152}
         />
 
-        <p className="mt-10 mb-6 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
+        <h2 className="not-found-heading mb-4 mt-[20px]">Page Not Found</h2>
+        <p className="mt-[32px] mb-[60px] not-found-sub-heading">
           We can’t seem to find the page you are looking for!
         </p>
         <Link
@@ -49,7 +47,7 @@ export default function NotFound() {
       </div>
 
       {/* Footer */}
-      <p className="absolute text-sm text-center text-gray-500 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-400">
+      <p className="absolute not-found-credits text-center -translate-x-1/2 bottom-6 left-1/2">
         &copy; {new Date().getFullYear()} | NFSMIS
         <br />
         <span>TEAM 404: TEAM NOT FOUND CAPSTONE PROJECT</span>
