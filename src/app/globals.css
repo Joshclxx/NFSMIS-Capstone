@@ -61,6 +61,23 @@ body {
   @apply text-[14px];
 }
 
+/* NOT FOUND TYPOGRAPHY */
+.not-found-heading {
+  @apply text-[36px] font-bold text-primary;
+}
+
+.not-found-sub-heading {
+  @apply text-[20px] text-primary;
+}
+
+.not-found-description {
+  @apply text-[16px] text-primary;
+}
+
+.not-found-credits {
+  @apply text-[12px] text-primary;
+}
+
 /* BUTTON */
 .button-text {
   @apply text-[14px] font-semibold;
