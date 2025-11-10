@@ -5,15 +5,15 @@ import Link from "next/link";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Next.js Error 404 | TailAdmin - Next.js Dashboard Template",
+  title: "NFSMIS ERROR 404",
   description:
-    "This is Next.js Error 404 page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
+    "This is NFSMIS Error 404 page - Next.js Tailwind CSS Capstone Project",
 };
 
 export default function NotFound() {
   return (
     <div className="relative flex flex-col items-center justify-center h-[932px] p-6 overflow-hidden z-1">
-      <GridShape />
+      {/* <GridShape /> */}
       <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
         <p className="not-found-description mb-[40px] max-w-md">
           Sorry, the page you’re looking for doesn’t exist or has been moved.

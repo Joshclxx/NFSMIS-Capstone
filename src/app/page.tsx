@@ -1,5 +1,4 @@
 "use client";
-import SectionContainer from "@/components/SectionContainer";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUserSession } from "@/hooks/useUserSession";
@@ -39,14 +38,11 @@ export default function Home() {
           {/* Form */}
           <form onSubmit={onSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Email"
                 required
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full p-3 rounded-[28px] focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-style"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
@@ -54,14 +50,11 @@ export default function Home() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Password"
                 required
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full p-3 rounded-[28px] focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-style"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
