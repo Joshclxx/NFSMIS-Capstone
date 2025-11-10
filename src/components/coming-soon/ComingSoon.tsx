@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import SectionContainer from "../SectionContainer";
 
 const ComingSoon = () => {
   return (
