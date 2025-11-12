@@ -89,7 +89,7 @@ export default function Header({ minimized, setMinimized }: HeaderProps) {
                   </div>
 
                   <button
-                    onClick={() => router.push("/account")}
+                    onClick={() => router.push("/profile")}
                     className="flex items-center gap-2 w-full text-white text-left px-3 py-2 text-sm hover:bg-white/10"
                   >
                     <UserIcon size={14} /> Profile
