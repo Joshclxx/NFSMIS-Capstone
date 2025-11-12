@@ -8,10 +8,13 @@ export async function POST(req: NextRequest) {
   const ip = getClientIp(req);
   const deviceHash = hashClientDevice(req);
   try {
-    const session_token = await login(email, password, ip, deviceHash, contentType);
+    const user = await login(email, password, ip, deviceHash, contentType);
 
-    return NextResponse.json({session_token})
+    return NextResponse.json({user})
   } catch (err) {
+    console.log(err)
     return NextResponse.json({ error: "Server Internal Error" }, { status: 500 });
   }
 }
+
+

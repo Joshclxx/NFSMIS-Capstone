@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Authentication APIs
+  description: 
+    This documentation provides details of how to use or interact with Auth APIs such
+    as logins and register. This includes authentication, request & response format, and
+    examples for client integration.
+  version: 1.0.0
+  contact:
+    name: Jaylord Pinos Soguilon
+    url: https://www.facebook.com/IsBrokenLink/
+    email: JaySoguilonIS@gmail.com
+  license:
+    name: Proprietary - Internal use only.
+paths:
+  /api/v1/auth/login:
+      post:
+        tags: [auth]
+        description: Authenticate users and returns browser cookies that contains session token
+        operationId: AuthLogin
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                description: Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    pattern: /^(?=.{6,30}@)[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@gmail\.com$/
+                  password:
+                    type: string
+                    pattern: /(?=.{8})[a-zA-Z0-9]+[^a-zA-Z0-9]+/
+                required:
+                  - email
+                  - password
+              examples:
+                loginExample:
+                  value:
+                    email: "your@example.com"
+                    password: "Yourpassword123!"
+        responses:
+          '200':
+            description: OK
+            headers:
+              Set-Cookie:
+                description: |-
+                  Session cookie. Your browser will handle this automatically.
+                  It have an attributes of 'HttpOnly', 'Secure', and 'SameSite=Strict'.
+                schema:
+                  type: string
+                  example: "session_id=abc123...; HttpOnly; Secure; SameSite=Strict; Path=/"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message: 
+                      type: string
+                example: {message: Logged in successfully}
+          '400':
+            description: 
+              Bad Request. The server could not process the request due to a 
+              client error (e.g., malformed JSON, missing required fields, or invalid data types).
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  Empty request body:
+                    value: 
+                      message: "Bad request"
+                  Invalid data type:
+                    value:
+                      message: "Bad request"
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionId
+    
+
+
