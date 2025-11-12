@@ -319,7 +319,7 @@ export const up = (pgm) => {
   //add constraint to user_role
   pgm.addConstraint(
     { schema: "auth", name: "user_roles" },
-    "users_roles_pkey",
+    "user_roles_pkey",
     {
       primaryKey: ["user_id", "role_id"],
     }
@@ -332,10 +332,10 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.dropConstraint({ schema: "auth", name: "users_roles" }, "users_roles_pkey", {
+  pgm.dropConstraint({ schema: "auth", name: "user_roles" }, "user_roles_pkey", {
     ifExists: true,
   });
-  pgm.dropTable({ schema: "auth", name: "users_roles" }, { ifExists: true });
+  pgm.dropTable({ schema: "auth", name: "user_roles" }, { ifExists: true });
 
   pgm.dropConstraint(
     { schema: "auth", name: "roles_permissions" },
@@ -353,6 +353,8 @@ export const down = (pgm) => {
   pgm.dropTable({schema: "auth", name: "emergency_contacts"}, {ifExists: true});
   pgm.dropTable({ schema: "auth", name: "users" }, { ifExists: true });
 
+  pgm.dropType("account_status", {ifExists: true})
+  pgm.dropType("relationship", {ifExists: true})
   pgm.dropType("session_type", {ifExists: true})
   pgm.dropType("sex", { ifExists: true });
   pgm.dropSchema("auth", { ifExists: true, cascade: true });

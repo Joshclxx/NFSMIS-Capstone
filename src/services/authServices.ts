@@ -1,3 +1,5 @@
+import { getUserByEmail } from "@/database/queries/userQueries";
+import { isValidEmail, isValidPassword } from "@/utils/authUtils";
 import { isWithinSlidingWindowLog } from "@/utils/cacheUtils";
 
 const RATE_LIMIT = {
@@ -9,10 +11,10 @@ const RATE_LIMIT = {
   SWL_EMAIL_LIMIT: 10,
 } as const;
 
-export const login = async (
-  email: string,
-  password: string,
-  ip: string,
+export const login = async <T>(
+  email: T,
+  password: T,
+  ip: string | undefined,
   deviceHash: string,
   contentType: string
 ) => {
@@ -30,7 +32,7 @@ export const login = async (
         RATE_LIMIT.SWL_GLOBAL_LIMIT
       )
     ) {
-      throw new Error("Try");
+      throw new Error("Rate limit");
     }
 
     if (
@@ -40,7 +42,7 @@ export const login = async (
         RATE_LIMIT.SWL_IP_LIMIT
       )
     ) {
-      throw new Error("Try");
+      throw new Error("Rate limit");
     }
 
     if (
@@ -50,14 +52,30 @@ export const login = async (
         RATE_LIMIT.SWL_DEVICE_LIMIT
       )
     ) {
-      throw new Error("Try");
+      throw new Error("Rate limit");
     }
 
-    if (email !== "admin" || password !== "admin") {
-        throw new Error("Try");
+    if (contentType !== "application/json") {
+      throw new Error("Invalid content type")
     }
-    return "login"
+
+    if (!isValidPassword(password) || !isValidEmail(email)) {
+      throw new Error("Invalid password")
+    }
+
+    const user = await getUserByEmail(email)
+    if(!isWithinSlidingWindowLog(emailKey, RATE_LIMIT.SWL_EMAIL_LIMIT, RATE_LIMIT.SWL_WINDOW)) {
+      throw new Error("Rate limit")
+    }
+
+    if(!user) {
+      throw new Error("Not found")
+    }
+
+    
+    return user;
   } catch (err) {
+    console.log(err)
     throw new Error("Try");
   }
 };
