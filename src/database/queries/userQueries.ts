@@ -1,10 +1,12 @@
-import { db } from "@/lib/pgConn";
+import { db } from "../../../configs/pgConn";
 import { USER_PREPARED_STATEMENTS } from "../prepared_statements/userStatements";
 import { localCache } from "@/lib/localcache";
+import { UserDTO } from "@/lib/schema/userSchema";
 
-export const getUserByEmail = async <T>(email: T) => {
-    if (typeof email !== "string") return null
-  let user = localCache.get(email);
+export const getUserByEmail = async (
+  email: string
+): Promise<UserDTO | null> => {
+  let user = localCache.get(email) as UserDTO | null;
   try {
     if (!user) {
       const { rows } = await db.query(USER_PREPARED_STATEMENTS.getUserByEmail, [
@@ -13,11 +15,12 @@ export const getUserByEmail = async <T>(email: T) => {
       user = rows[0];
 
       if (!user) return null;
-      localCache.set('Test', email);
+      localCache.set(email, user);
       return user;
     }
     return user;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };

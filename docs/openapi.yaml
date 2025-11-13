@@ -35,11 +35,9 @@ paths:
                 required:
                   - email
                   - password
-              examples:
-                loginExample:
-                  value:
-                    email: "your@example.com"
-                    password: "Yourpassword123!"
+              example: 
+                email: "wilhelmine_mcdermott90@hotmail.com"
+                password: "Tester123!"
         responses:
           '200':
             description: OK
@@ -56,9 +54,46 @@ paths:
                 schema:
                   type: object
                   properties:
+                    data: 
+                      type: object
+                      properties:
+                        userId:
+                          type: string
+                        fullName: 
+                          type: string
+                        birthDate:
+                          type: string
+                        sex:
+                          type: string #male or female only
+                        phone: 
+                          type: string
+                        email: 
+                          type: string
+                        address:
+                          type: string
+                        emergencyName:
+                          type: string
+                        emergencyPhone:
+                          type: string
+                        role: 
+                          type: string
+                        status:
+                          type: string
                     message: 
                       type: string
-                example: {message: Logged in successfully}
+                  example:
+                    data:
+                      userId: "user-12345"
+                      fullName: "John Doe"
+                      birthDate: "1990-01-01"
+                      sex: "Male"
+                      phone: "+15551234567"
+                      email: "john.doe@example.com"
+                      address: "123 Main St Anytown USA"
+                      emergencyName: "Jane Doe"
+                      emergencyPhone: "09090909090"
+                      role: "user"
+                    message: "Logged in successfully"
           '400':
             description: 
               Bad Request. The server could not process the request due to a 
@@ -68,15 +103,81 @@ paths:
                 schema:
                   type: object
                   properties:
+                    code: 
+                      type: string
                     message:
                       type: string
                 examples:
                   Empty request body:
                     value: 
-                      message: "Bad request"
+                      code: "BAD_REQUEST"
+                      message: "The request is invalid. Please check your parameters and try again."
                   Invalid data type:
                     value:
-                      message: "Bad request"
+                      code: "BAD_REQUEST"
+                      message: "The request is invalid. Please check your parameters and try again."
+          '401':
+            description: |
+              Unauthorized. This can be due to invalid credentials 
+              or a missing authentication token on protected routes.
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                example: 
+                  code: "INVALID_CREDENTIALS"
+                  message: "Invalid email or password."
+          '415':
+            description: |
+              Unsupported Media Type. This happen because of wrong content-type.
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                example: 
+                  code: "UNSUPPORTED_MEDIA_TYPE"
+                  message: "The content type of this request is not supported." 
+          '429':
+            description: |
+              Too Many Requests. The request was declined because the client has exceeded the allowed request rate limit.
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                example: 
+                  code: "RATE_LIMIT"
+                  message: "Too many requests. Please try again later." 
+          '500':
+            description: |
+              Too Many Requests. The request was declined because the client has exceeded the allowed request rate limit.
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    message:
+                      type: string
+                example: 
+                  code: "INTERNAL_SERVER_ERROR"
+                  message: "An unexpected error occurred on the server. Please try again later." 
+
 components:
   securitySchemes:
     cookieAuth:
