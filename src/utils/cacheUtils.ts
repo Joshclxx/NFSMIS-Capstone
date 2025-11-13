@@ -15,6 +15,8 @@ export function isWithinSlidingWindowLog(
   //get the count of members
   const count = localCache.zCard(key);
 
+
+
   //SOFT PUNISHMENT (no expiry increment) they need to wait for ttl.
   if (count >= limit) {
     return false;
@@ -23,5 +25,6 @@ export function isWithinSlidingWindowLog(
   //add the entry if not exist
   localCache.zAdd(key, now, `${key}-${Math.random()}`);
   localCache.expire(key, ttlSeconds);
+  console.log(localCache.getStats());
   return true;
 }

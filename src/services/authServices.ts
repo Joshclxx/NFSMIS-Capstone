@@ -1,6 +1,8 @@
 import { getUserByEmail } from "@/database/queries/userQueries";
-import { isValidEmail, isValidPassword } from "@/utils/authUtils";
+import { LoginDTO, loginSchema } from "@/lib/schema/authSchema";
+import { setSessionCookie } from "@/utils/authUtils";
 import { isWithinSlidingWindowLog } from "@/utils/cacheUtils";
+import bcrypt from "bcrypt";
 
 const RATE_LIMIT = {
   SWL_GLOBAL_WINDOW: 60,
@@ -11,13 +13,8 @@ const RATE_LIMIT = {
   SWL_EMAIL_LIMIT: 10,
 } as const;
 
-export const login = async <T>(
-  email: T,
-  password: T,
-  ip: string | undefined,
-  deviceHash: string,
-  contentType: string
-) => {
+export const login = async (loginData: LoginDTO) => {
+  const { email, password, ip, deviceHash, contentType } = loginData;
   //keys
   const globalKey = `swl:auth:login:global`;
   const ipKey = `swl:auth:login:ip:${ip}`;
@@ -25,57 +22,74 @@ export const login = async <T>(
   const emailKey = `swl:auth:login:email:${email}`;
 
   try {
+    //check if the global, ip, or device exceed the limit
     if (
       !isWithinSlidingWindowLog(
         globalKey,
         RATE_LIMIT.SWL_GLOBAL_WINDOW,
         RATE_LIMIT.SWL_GLOBAL_LIMIT
-      )
-    ) {
-      throw new Error("Rate limit");
-    }
-
-    if (
+      ) ||
       !isWithinSlidingWindowLog(
         ipKey,
         RATE_LIMIT.SWL_WINDOW,
         RATE_LIMIT.SWL_IP_LIMIT
-      )
-    ) {
-      throw new Error("Rate limit");
-    }
-
-    if (
+      ) ||
       !isWithinSlidingWindowLog(
         deviceKey,
         RATE_LIMIT.SWL_WINDOW,
         RATE_LIMIT.SWL_DEVICE_LIMIT
       )
     ) {
-      throw new Error("Rate limit");
+      throw new Error("rateLimit");
+    }
+
+    //type check for variables
+    const { success } = loginSchema.safeParse({
+      email,
+      password,
+      ip,
+      deviceHash,
+      contentType,
+    });
+
+    if (!success) {
+      throw new Error("badRequest");
     }
 
     if (contentType !== "application/json") {
-      throw new Error("Invalid content type")
+      throw new Error("unsupportedMediaType");
     }
 
-    if (!isValidPassword(password) || !isValidEmail(email)) {
-      throw new Error("Invalid password")
+    //find user by email and validate if its already exceed the limit
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      throw new Error("invalidCredentials");
     }
 
-    const user = await getUserByEmail(email)
-    if(!isWithinSlidingWindowLog(emailKey, RATE_LIMIT.SWL_EMAIL_LIMIT, RATE_LIMIT.SWL_WINDOW)) {
-      throw new Error("Rate limit")
+    if (
+      !isWithinSlidingWindowLog(
+        emailKey,
+        RATE_LIMIT.SWL_EMAIL_LIMIT,
+        RATE_LIMIT.SWL_WINDOW
+      )
+    ) {
+      throw new Error("rateLimit");
     }
 
-    if(!user) {
-      throw new Error("Not found")
+    //compare passwords
+    const isPasswordMatch = await bcrypt.compare(password, user.passwordHash);
+
+    if (!isPasswordMatch) {
+      throw new Error("invalidCredentials");
     }
 
-    
-    return user;
+    //set session cookie
+    await setSessionCookie(user.userId);
+    const {passwordHash, ...safeUserData} = user;
+
+    return safeUserData;
   } catch (err) {
-    console.log(err)
-    throw new Error("Try");
+    throw err
   }
 };

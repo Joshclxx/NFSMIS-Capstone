@@ -50,8 +50,10 @@ export const up = (pgm) => {
       last_name: { type: "varchar(30)", notNull: true },
       suffix: { type: "varchar(10)" },
       dob: { type: "date" },
-      sex: { type: "sex", notNull: true },
+      sex: { type: "sex" },
       contact_no: { type: "varchar(11)", notNull: true, unique: true },
+      created_by: {type: "uuid", references: "auth.users(id)", onDelete: "RESTRICT"},
+      created_at: {type: "timestamp", notNull: true, default: pgm.func("NOW()")},
       updated_at: {
         type: "timestamp",
         notNull: true,
@@ -164,7 +166,6 @@ export const up = (pgm) => {
       session_token: { type: "varchar(255)", notNull: true },
       ip: { type: "inet", notNull: true },
       device_hash: { type: "varchar(255)", notNull: true },
-      user_agent: { type: "varchar(255)", notNull: true },
       attempts: { type: "int", notNull: true },
       revoked: { type: "boolean", notNull: true, default: false },
       account_id: {
