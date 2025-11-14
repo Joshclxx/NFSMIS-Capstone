@@ -7,13 +7,15 @@ type UserAccount = {
   userId: string | null;
   userRole: UserRole;
   userEmail: string | null;
+  token: string | null;
   loggedIn: boolean;
-  sessionId: number | null;
+  sessionTimestamp: number | null;
   setUser: (
     id: string,
     role: UserRole,
     email: string,
-    sessionId: number | null
+    token: string,
+    timestamp: number
   ) => void;
   logout: () => void;
 };
@@ -22,22 +24,26 @@ const INITIAL_STATE: Omit<UserAccount, "setUser" | "logout"> = {
   userId: null,
   userRole: null,
   userEmail: null,
+  token: null,
   loggedIn: false,
-  sessionId: null,
+  sessionTimestamp: null,
 };
 
 export const useUserSession = create<UserAccount>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
-      setUser: (id, role, email, sessionId) =>
+
+      setUser: (id, role, email, token, timestamp) =>
         set({
           userId: id,
           userRole: role,
           userEmail: email,
+          token,
           loggedIn: true,
-          sessionId,
+          sessionTimestamp: timestamp,
         }),
+
       logout: () => set({ ...INITIAL_STATE }),
     }),
     {
@@ -51,7 +57,6 @@ export const useUserSession = create<UserAccount>()(
   )
 );
 
-// Handy selectors
 export const useIsLoggedIn = () => useUserSession((s) => s.loggedIn);
 export const useUserRole = () => useUserSession((s) => s.userRole);
 export const useLogout = () => useUserSession((s) => s.logout);
