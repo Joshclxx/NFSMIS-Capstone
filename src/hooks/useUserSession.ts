@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type UserRole = "admin" | "student" | null;
+export type UserRole = "Admin" | "Student" | null;
 
 type UserAccount = {
   userId: string | null;

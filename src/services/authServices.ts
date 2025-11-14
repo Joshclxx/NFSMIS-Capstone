@@ -86,10 +86,10 @@ export const login = async (loginData: LoginDTO) => {
 
     //set session cookie
     await setSessionCookie(user.userId);
-    const {passwordHash, ...safeUserData} = user;
+    const { passwordHash, ...safeUserData } = user;
 
     return safeUserData;
   } catch (err) {
-    throw err
+    throw err;
   }
 };
