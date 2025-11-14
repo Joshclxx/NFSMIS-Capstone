@@ -17,25 +17,62 @@ export default function Home() {
     }
   }, [loggedIn, userRole, router]);
 
-  const onSubmit = (e: React.FormEvent) => {
+  // const onSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const role = email.endsWith("@iihc.edu") ? "admin" : "student";
+  //   setUser(email, role, email, Date.now());
+  //   if (role === "admin") router.replace("/admin/dashboard");
+  //   else router.replace("/student");
+  // };
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const role = email.endsWith("@iihc.edu") ? "admin" : "student";
-    setUser(email, role, email, Date.now());
-    if (role === "admin") router.replace("/admin/dashboard");
-    else router.replace("/student");
+
+    try {
+      const res = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        toast.error("Invalid email or password");
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+
+      setUser(
+        data.user.id,
+        data.user.email,
+        data.user.role,
+        data.token,
+        Date.now()
+      );
+      toast.success("Login successful!");
+
+      if (data.user.role === "admin") router.replace("/admin/dashboard");
+      else router.replace("/student");
+    } catch (error) {
+      toast.error("Login failed. Try again.");
+      console.error("Login error:", error);
+    }
   };
 
   return (
     <div className="px-4">
       <div className="w-full max-w-5xl bg-white flex flex-col md:flex-row shadow-style rounded-2xl overflow-hidden">
-        {/* Login Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
             Welcome Back
           </h2>
           <p className="text-center text-gray-500 mb-8">Batang Ayah & Zian</p>
 
-          {/* Form */}
+          {/* FORM */}
           <form onSubmit={onSubmit} className="space-y-6">
             <div>
               <input
@@ -69,23 +106,22 @@ export default function Home() {
             </div>
 
             <button
-              onClick={() => toast.success("Login Successful!")}
+              // onClick={() => toast.success("Login Successful!")}
               type="submit"
               className="w-full py-3 bg-button text-white rounded-lg font-semibold hover:bg-blue-700 transition"
             >
               Login
             </button>
 
-            {/* Divider */}
             <div className="flex items-center gap-2">
               <div className="flex-1 h-px bg-gray-300"></div>
               <span className="text-sm text-gray-500">or</span>
               <div className="flex-1 h-px bg-gray-300"></div>
             </div>
 
-            {/* Google login */}
+            {/* GOOGLE LOGIN */}
             <button
-              type="button"
+              type="submit"
               className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg hover:bg-gray-50 transition"
             >
               <img
@@ -98,7 +134,7 @@ export default function Home() {
           </form>
         </div>
 
-        {/* RIGHT: Branding */}
+        {/* RIGHT: PANEL */}
         <div
           className="hidden md:flex w-1/2 text-white flex-col items-center justify-center"
           style={{ backgroundImage: "url('/images/login-image.svg')" }}
