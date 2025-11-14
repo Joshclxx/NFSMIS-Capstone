@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     if (loggedIn) {
-      if (userRole === "admin") router.replace("/admin/dashboard");
+      if (userRole === "Admin") router.replace("/admin/dashboard");
       else router.replace("/student");
     }
   }, [loggedIn, userRole, router]);

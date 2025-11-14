@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!loggedIn) router.replace("/");
-    else if (userRole !== "student") router.replace("/admin/dashboard");
+    else if (userRole !== "Student") router.replace("/admin/dashboard");
   }, [loggedIn, userRole, router]);
 
   return (

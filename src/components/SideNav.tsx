@@ -25,7 +25,7 @@ export default function SideNav({ role, minimized = false }: SideNavProps) {
 
   const renderItems = (items: NAV_ITEMS[], trail: string[] = []) => (
     <ul className="space-y-2">
-      {items.map((item) => {
+      {items?.map((item) => {
         const id = [...trail, item.title].join("::");
         const hasChildren = !!item.children?.length;
         const isOpen = open.has(id);
@@ -124,7 +124,11 @@ export default function SideNav({ role, minimized = false }: SideNavProps) {
       </div>
 
       {/* Navigation Items */}
-      <div className="flex-1 overflow-y-auto p-4">{renderItems(navItems)}</div>
+      {/* <div className="flex-1 overflow-y-auto p-4">{renderItems(navItems)}</div> */}
+
+      <div className="flex-1 overflow-y-auto p-4">
+        {renderItems(navItems ?? [])}
+      </div>
     </aside>
   );
 }

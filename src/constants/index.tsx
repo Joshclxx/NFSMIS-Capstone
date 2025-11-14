@@ -54,6 +54,6 @@ const STUDENT_NAV: NAV_ITEMS[] = [
 ];
 
 export const NAV_BY_ROLE = {
-  admin: ADMIN_NAV,
-  student: STUDENT_NAV,
+  Admin: ADMIN_NAV,
+  Student: STUDENT_NAV,
 } as const;
