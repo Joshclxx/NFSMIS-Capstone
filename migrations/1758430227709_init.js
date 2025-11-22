@@ -10,7 +10,7 @@ export const shorthands = undefined;
  */
 
 /**
- * 
+ *
  */
 export const up = (pgm) => {
   pgm.createExtension("uuid-ossp", { ifNotExists: true });
@@ -52,8 +52,16 @@ export const up = (pgm) => {
       dob: { type: "date" },
       sex: { type: "sex" },
       contact_no: { type: "varchar(11)", notNull: true, unique: true },
-      created_by: {type: "uuid", references: "auth.users(id)", onDelete: "RESTRICT"},
-      created_at: {type: "timestamp", notNull: true, default: pgm.func("NOW()")},
+      created_by: {
+        type: "uuid",
+        references: "auth.users(id)",
+        onDelete: "RESTRICT",
+      },
+      created_at: {
+        type: "timestamp",
+        notNull: true,
+        default: pgm.func("NOW()"),
+      },
       updated_at: {
         type: "timestamp",
         notNull: true,
@@ -174,7 +182,11 @@ export const up = (pgm) => {
         references: "auth.accounts(id)",
       },
       expired_at: { type: "timestamp", notNull: true },
-      login_at: { type: "timestamp", notNull: true, default: pgm.func("NOW()") },
+      login_at: {
+        type: "timestamp",
+        notNull: true,
+        default: pgm.func("NOW()"),
+      },
     }
   );
 
@@ -318,13 +330,9 @@ export const up = (pgm) => {
   );
 
   //add constraint to user_role
-  pgm.addConstraint(
-    { schema: "auth", name: "user_roles" },
-    "user_roles_pkey",
-    {
-      primaryKey: ["user_id", "role_id"],
-    }
-  );
+  pgm.addConstraint({ schema: "auth", name: "user_roles" }, "user_roles_pkey", {
+    primaryKey: ["user_id", "role_id"],
+  });
 };
 
 /**
@@ -333,9 +341,13 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.dropConstraint({ schema: "auth", name: "user_roles" }, "user_roles_pkey", {
-    ifExists: true,
-  });
+  pgm.dropConstraint(
+    { schema: "auth", name: "user_roles" },
+    "user_roles_pkey",
+    {
+      ifExists: true,
+    }
+  );
   pgm.dropTable({ schema: "auth", name: "user_roles" }, { ifExists: true });
 
   pgm.dropConstraint(
@@ -343,20 +355,26 @@ export const down = (pgm) => {
     "roles_permissions_pkey",
     { ifExists: true }
   );
-  pgm.dropTable({schema: "auth", name: "roles_permissions"}, {ifExists: true});
+  pgm.dropTable(
+    { schema: "auth", name: "roles_permissions" },
+    { ifExists: true }
+  );
 
-  pgm.dropTable({schema: "auth", name: "permissions"}, {ifExists: true});
-  pgm.dropTable({schema: "auth", name: "roles"}, {ifExists: true});
-  pgm.dropTable({schema: "auth", name: "session_history"});
-  pgm.dropTable({schema: "auth", name: "sessions"}, {ifExists: true});
+  pgm.dropTable({ schema: "auth", name: "permissions" }, { ifExists: true });
+  pgm.dropTable({ schema: "auth", name: "roles" }, { ifExists: true });
+  pgm.dropTable({ schema: "auth", name: "session_history" });
+  pgm.dropTable({ schema: "auth", name: "sessions" }, { ifExists: true });
   pgm.dropTable({ schema: "auth", name: "addresses" }, { ifExists: true });
   pgm.dropTable({ schema: "auth", name: "accounts" }, { ifExists: true });
-  pgm.dropTable({schema: "auth", name: "emergency_contacts"}, {ifExists: true});
+  pgm.dropTable(
+    { schema: "auth", name: "emergency_contacts" },
+    { ifExists: true }
+  );
   pgm.dropTable({ schema: "auth", name: "users" }, { ifExists: true });
 
-  pgm.dropType("account_status", {ifExists: true})
-  pgm.dropType("relationship", {ifExists: true})
-  pgm.dropType("session_type", {ifExists: true})
+  pgm.dropType("account_status", { ifExists: true });
+  pgm.dropType("relationship", { ifExists: true });
+  pgm.dropType("session_type", { ifExists: true });
   pgm.dropType("sex", { ifExists: true });
   pgm.dropSchema("auth", { ifExists: true, cascade: true });
 

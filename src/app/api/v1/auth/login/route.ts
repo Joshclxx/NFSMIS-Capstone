@@ -15,6 +15,8 @@ export async function POST(req: NextRequest) {
   } catch (err) { 
     if (err instanceof Error && err.message in ERROR_RESPONSES) {
       const {status, code, message} = ERROR_RESPONSES[err.message as ErrorType];
+
+      
       return NextResponse.json({code, message}, {status})
     }
 
