@@ -458,7 +458,8 @@ const curriculum: Record<string, Record<string, Subject[]>> = {
   },
 };
 
-const SubjectTable: React.FC<SubjectTableProps> = ({ year, sem, subjects }) => {
+// const SubjectTable: React.FC<SubjectTableProps> = ({ year, sem, subjects }) => {
+const SubjectTable: React.FC<SubjectTableProps> = ({ subjects }) => {
   const totalUnits = subjects.reduce((sum, s) => sum + s.units, 0);
   const totalLec = subjects.reduce((sum, s) => sum + s.lec, 0);
   const totalLab = subjects.reduce((sum, s) => sum + s.lab, 0);

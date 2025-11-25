@@ -2,8 +2,8 @@
 import { usePathname } from "next/navigation";
 import SideNav from "./SideNav";
 import Header from "./Header";
-import React, { useState } from "react";
-import { useUserRole } from "@/hooks/useUserSession";
+import React, { useState, useEffect } from "react";
+import { useUserRole } from "../hooks/useUserSession";
 
 export default function ClientLayout({
   children,
@@ -13,12 +13,23 @@ export default function ClientLayout({
   const role = useUserRole();
   const pathname = usePathname();
 
+  const [minimized, setMinimized] = useState(false);
+  const [hideLayout, setHideLayout] = useState(false);
+
+  // SIDEBAR HIDE WHILE IN NOT-FOUND PAGE
+  useEffect(() => {
+    const shouldHide = document.querySelector("[data-hide-layout='true']");
+    setHideLayout(!!shouldHide);
+  }, [pathname, children]);
+
+  if (hideLayout) {
+    return <div className="min-h-screen">{children}</div>;
+  }
+
   // HIDE SIDE BAR, DEPENDS ON ROUTE
   const routesWithoutSidebar = ["/", "/student/curriculum-management"];
   const hideSideNav = routesWithoutSidebar.includes(pathname);
   const hideHeader = routesWithoutSidebar.includes(pathname);
-
-  const [minimized, setMinimized] = useState(false);
 
   if (hideSideNav && hideHeader) {
     return (
@@ -43,9 +54,9 @@ export default function ClientLayout({
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto px-8 py-5">
-        {!hideHeader && (
-          <Header minimized={minimized} setMinimized={setMinimized} />
-        )}
+        {/* {!hideHeader && ( */}
+        <Header minimized={minimized} setMinimized={setMinimized} />
+        {/* )} */}
         {children}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type UserRole = "Admin" | "Student" | null;
+export type UserRole = "admin" | "student" | null;
 
 type UserAccount = {
   userId: string | null;
@@ -14,7 +14,6 @@ type UserAccount = {
     id: string,
     role: UserRole,
     email: string,
-    token: string,
     timestamp: number
   ) => void;
   logout: () => void;
@@ -34,12 +33,11 @@ export const useUserSession = create<UserAccount>()(
     (set) => ({
       ...INITIAL_STATE,
 
-      setUser: (id, role, email, token, timestamp) =>
+      setUser: (id, role, email, timestamp) =>
         set({
           userId: id,
           userRole: role,
           userEmail: email,
-          token,
           loggedIn: true,
           sessionTimestamp: timestamp,
         }),

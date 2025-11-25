@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { db } from "./pgConn";
 
 const adminId = "08ffc49c-33d7-4585-ac10-0a3fb79960bb";

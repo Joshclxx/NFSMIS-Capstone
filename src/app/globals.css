@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f2f3f4;
+  --background: #d9d9d9;
   --foreground: #231f17;
 
   /* COLOR PALETTE */
@@ -33,7 +33,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #f2f3f4;
+    --background: #d9d9d9;
     --foreground: #231f17;
   }
 }
@@ -95,5 +95,6 @@ body {
 
 /* TABLE */
 .table-style {
-  @apply py-2 border-b border-r text-[12px];
+  @apply py-2 text-[12px];
 }
+/* border-b border-r [For Table Border] */

@@ -49,27 +49,26 @@ export function hashClientDevice(req: NextRequest) {
 //   );
 // };
 
-
 //sessions utils
 export const createSessionCookie = async (userId: string) => {
-  const token = crypto.randomBytes(64).toString('hex');
-  const userSessionKey = `user:${userId}:sessions`;
-  return token
-}
+  const token = crypto.randomBytes(64).toString("hex");
+  // const userSessionKey = `user:${userId}:sessions`;
+  return token;
+};
 
 export const setSessionCookie = async (token: string) => {
-  (await cookies()).set('session', token, {
+  (await cookies()).set("session", token, {
     httpOnly: true,
     secure: env.isProd,
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7 //7days
-  })
-}
+    sameSite: "strict",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, //7days
+  });
+};
 
 export const getSessionCookie = async () => {
-  return (await cookies()).get(env.sessionCookieName)?.value
-}
+  return (await cookies()).get(env.sessionCookieName)?.value;
+};
 
 export const clearSessionCookie = async () => {
   (await cookies()).set(env.sessionCookieName, "", {
@@ -79,4 +78,4 @@ export const clearSessionCookie = async () => {
     path: "/",
     maxAge: 0,
   });
-}
+};

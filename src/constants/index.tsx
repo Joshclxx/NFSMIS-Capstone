@@ -1,7 +1,7 @@
 export type NAV_ITEMS = {
   title: string;
   path?: string;
-  icon?: React.ReactNode;
+  icon?: string;
   children?: NAV_ITEMS[];
 };
 
@@ -17,7 +17,7 @@ const ADMIN_NAV: NAV_ITEMS[] = [
     children: [
       { title: "Classes", path: "/admin/classes" },
       { title: "Enrollment", path: "/admin/enrollment" },
-      { title: "Academic Records", path: "/studentAccount/records" },
+      { title: "Academic Records", path: "/admin/academic-record" },
       { title: "Learning Modules", path: "/admin/learning-module" },
     ],
   },
@@ -45,15 +45,16 @@ const ADMIN_NAV: NAV_ITEMS[] = [
     title: "Accounts",
     path: "/admin/dashboard",
     icon: "/icons/accounts.svg",
+    children: [{ title: "Users", path: "/admin/users" }],
   },
 ];
 
 const STUDENT_NAV: NAV_ITEMS[] = [
-  { title: "Schedule", path: "student/student" },
+  { title: "Schedule", path: "/student/schedule" },
   { title: "Portal", path: "/student/portal" },
 ];
 
 export const NAV_BY_ROLE = {
-  Admin: ADMIN_NAV,
-  Student: STUDENT_NAV,
+  admin: ADMIN_NAV,
+  student: STUDENT_NAV,
 } as const;

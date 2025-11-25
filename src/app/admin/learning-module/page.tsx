@@ -5,16 +5,16 @@ import Link from "next/link";
 import SectionContainer from "@/components/SectionContainer";
 
 export default function LearningModule() {
-  const information = [
-    {
-      room: 204,
-      subject: "Capstone Project",
-      section: "41A1",
-      teacher: "Dante Ador",
-      course: "BSIS",
-      grade: 1.25,
-    },
-  ];
+  // const information = [
+  //   {
+  //     room: 204,
+  //     subject: "Capstone Project",
+  //     section: "41A1",
+  //     teacher: "Dante Ador",
+  //     course: "BSIS",
+  //     grade: 1.25,
+  //   },
+  // ];
 
   return (
     <SectionContainer background="mt-12">

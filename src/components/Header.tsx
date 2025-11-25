@@ -10,7 +10,7 @@ import {
   Menu,
   PanelLeft,
 } from "lucide-react";
-import { useUserSession, useLogout } from "@/hooks/useUserSession";
+import { useUserSession, useLogout } from "../hooks/useUserSession";
 
 type HeaderProps = {
   minimized: boolean;

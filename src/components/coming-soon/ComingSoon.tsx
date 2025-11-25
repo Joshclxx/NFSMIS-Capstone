@@ -23,9 +23,9 @@ const ComingSoon = () => {
             Something amazing is coming, get ready for a new experience.
           </p>
           <p className="text-[16px] mb-[32px] font-medium">Stay updated!</p>
-          <button className="px-6 py-3 bg-primary text-textWhite font-semibold rounded-md hover:bg-primary transition">
+          {/* <button className="px-6 py-3 bg-primary text-textWhite font-semibold rounded-md hover:bg-primary transition">
             Back to homepage
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ export const USER_PREPARED_STATEMENTS = {
             COALESCE(NULLIF(CONCAT_WS(' ', NULLIF(INITCAP(ad.unit_no), ''), NULLIF(INITCAP(ad.building), ''), NULLIF(INITCAP(ad.house_no), ''), INITCAP(ad.street), INITCAP(ad.brgy), INITCAP(ad.city), INITCAP(ad.region)), ''), 'not-set') AS address,
             COALESCE(NULLIF(CONCAT_WS(' ', INITCAP(ec.first_name), INITCAP(ec.last_name)), ''), 'not-set') AS "emergencyName",
             COALESCE(INITCAP(ec.contact_no), 'not-set') AS "emergencyPhone",
-            COALESCE(INITCAP(r.name), 'not-set') AS role,
+            COALESCE(r.name, 'not-set') AS role,
             a.status 
         FROM auth.users u 
         LEFT JOIN auth.accounts a
