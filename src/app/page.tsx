@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useUserSession } from "@/hooks/useUserSession";
+import { useUserSession } from "../hooks/useUserSession";
 import toast from "react-hot-toast";
+import Button from "../components/Button";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     if (loggedIn) {
-      if (userRole === "Admin") router.replace("/admin/dashboard");
+      if (userRole === "admin") router.replace("/admin/dashboard");
       else router.replace("/student");
     }
   }, [loggedIn, userRole, router]);
@@ -46,13 +47,8 @@ export default function Home() {
       const data = await res.json();
       console.log(data);
 
-      setUser(
-        data.user.id,
-        data.user.email,
-        data.user.role,
-        data.token,
-        Date.now()
-      );
+      // setUser(data.user.userId, data.user.email, data.user.role, Date.now());
+      setUser(data.user.userId, data.user.role, data.user.email, Date.now());
       toast.success("Login successful!");
 
       if (data.user.role === "admin") router.replace("/admin/dashboard");
@@ -64,7 +60,7 @@ export default function Home() {
   };
 
   return (
-    <div className="px-4">
+    <div className="px-4 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-5xl bg-white flex flex-col md:flex-row shadow-style rounded-2xl overflow-hidden">
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
@@ -105,22 +101,18 @@ export default function Home() {
               </button>
             </div>
 
-            <button
-              // onClick={() => toast.success("Login Successful!")}
-              type="submit"
-              className="w-full py-3 bg-button text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
+            <Button type="submit" variant="login">
               Login
-            </button>
+            </Button>
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <div className="flex-1 h-px bg-gray-300"></div>
               <span className="text-sm text-gray-500">or</span>
               <div className="flex-1 h-px bg-gray-300"></div>
-            </div>
+            </div> */}
 
             {/* GOOGLE LOGIN */}
-            <button
+            {/* <button
               type="submit"
               className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg hover:bg-gray-50 transition"
             >
@@ -130,7 +122,7 @@ export default function Home() {
                 className="w-5 h-5"
               />
               <span className="font-medium">Sign in with Google</span>
-            </button>
+            </button> */}
           </form>
         </div>
 

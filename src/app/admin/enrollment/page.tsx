@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import SectionContainer from "@/components/SectionContainer";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
 
 const Enrollment = () => {
   const router = useRouter();
@@ -81,7 +82,7 @@ const Enrollment = () => {
     <SectionContainer background="mt-12">
       <div className="py-8">
         <select
-          className="heading tect-left bg-transparent focus:outline-none cursor-pointer"
+          className="heading text-left bg-transparent focus:outline-none cursor-pointer"
           defaultValue="College Student"
           onChange={(e) => setStudentType(e.target.value)}
         >
@@ -191,12 +192,9 @@ const Enrollment = () => {
             </div>
 
             {/* ADD BUTTON */}
-            <button
-              onClick={handleAdd}
-              className="bg-secondary hover:bg-secondary/95 cursor-pointer p-1 rounded-lg flex items-center"
-            >
-              <p className="text-background px-4 font-bold">+ Add</p>
-            </button>
+            <Button onClick={handleAdd} variant="enroll">
+              + Add
+            </Button>
 
             {/* REFRESH BUTTON */}
             <img

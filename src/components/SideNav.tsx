@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import { NAV_BY_ROLE, NAV_ITEMS } from "@/constants";
+import { NAV_BY_ROLE, NAV_ITEMS } from "../constants";
 import Image from "next/image";
 
 type SideNavProps = {
