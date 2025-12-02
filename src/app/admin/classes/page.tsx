@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import SectionContainer from "@/components/SectionContainer";
+import SectionContainer from "@/src/components/SectionContainer";
 
 export default function Classes() {
   const information = [

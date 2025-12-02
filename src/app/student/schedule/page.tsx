@@ -1,6 +1,6 @@
 import React from "react";
 
-import ComingSoon from "@/components/coming-soon/ComingSoon";
+import ComingSoon from "@/src/components/coming-soon/ComingSoon";
 
 export default function Schedule() {
   return (

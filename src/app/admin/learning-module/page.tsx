@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import SectionContainer from "@/components/SectionContainer";
+import SectionContainer from "@/src/components/SectionContainer";
 
 export default function LearningModule() {
   // const information = [

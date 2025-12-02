@@ -1,40 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "@/src/components/SectionContainer";
 import { useRouter } from "next/navigation";
 import Button from "@/src/components/Button";
-// import { Label } from "@/components/ui/label"
-import { Switch } from "@/src/components/ui/switch";
+import AccountModal from "@/src/components/account-modal/usersModal";
+import { faker } from "@faker-js/faker";
+import RoleModal from "@/src/components/account-modal/selectRoleModal";
 
-const Enrollment = () => {
+export type User = {
+  id: string;
+  fullname: string;
+  email: string;
+  role: string;
+  status: string;
+  creationDate: string;
+  lastUpdated: string;
+  lastLogin: string;
+  locked: boolean;
+};
+
+const generateFakeUsers = () =>
+  Array.from({ length: 48 }).map(() => ({
+    id: faker.string.uuid(),
+    fullname: faker.person.fullName(),
+    email: faker.internet.email(),
+    role: faker.helpers.arrayElement([
+      "Student",
+      "Teacher",
+      "Registrar",
+      "Principal",
+      "Dean",
+    ]),
+    status: "Active",
+    creationDate: faker.date.past().toLocaleDateString(),
+    lastUpdated: faker.date.recent().toLocaleDateString(),
+    lastLogin: faker.date.recent().toLocaleDateString(),
+    locked: false,
+  }));
+
+const Users = () => {
   const router = useRouter();
-  const data = [
-    {
-      fullname: "Joshua Colobong",
-      email: "joshuacolobong11@gmail.com",
-      role: "Master Admin",
-      status: "Active",
-      creationDate: "Male",
-      lastUpdated: "11/19/2025",
-      lastLogin: "11/21/2025",
-    },
-  ];
 
-  const handleAdd = () => {
-    router.push("/admin/registration");
-  };
+  // USERS DATA
+  const [users, setUsers] = useState<User[]>([]);
+
+  // FAKER JS LOADING
+  useEffect(() => {
+    setUsers(generateFakeUsers());
+  }, []);
 
   // STATES
   const [searchStudent, setSearchStudent] = useState("");
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [enabled, setEnabled] = useState(false);
+  const [selectRoleModal, setSelectRoleModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  // UPDATE USER
+  const updateUser = (updated: User) => {
+    setUsers((prev) => prev.map((u) => (u.id === updated.id ? updated : u)));
+  };
 
   // FILTERING
-  const filterData = data.filter((item) => {
+  const filterData = users.filter((item) => {
     const matchesStudent = item.fullname
       .toLowerCase()
       .includes(searchStudent.toLowerCase());
@@ -59,37 +89,34 @@ const Enrollment = () => {
               placeholder="Name"
               value={searchStudent}
               onChange={(e) => setSearchStudent(e.target.value)}
-              className="rounded-lg bg-white border shadow p-2 w-full focus:outline-none focus:ring-1"
+              className="rounded-lg bg-white border shadow p-2 w-full"
             />
             <img
               src="/icons/search-icon.svg"
-              alt="Icon"
               width={21}
-              className="absolute right-3 top-2.5 w-5 h-5 cursor-pointer"
+              className="absolute right-3 top-2.5"
             />
           </div>
 
           <div className="flex gap-4 items-center relative z-10">
             {/* ROLE */}
             <div className="relative w-[132px]">
-              <details className="group">
+              <details>
                 <summary className="bg-white p-2 border rounded-md cursor-pointer">
                   {role || "Role"}
                 </summary>
                 <ul className="absolute left-0 mt-1 w-full bg-white border rounded-md shadow-md p-2 z-20">
-                  {["Student", "Registrar", "Principal", "Dean", "Teacher"].map(
-                    (c) => (
-                      <li
-                        key={c}
-                        className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
-                        onClick={() => setRole(c)}
-                      >
-                        {c}
-                      </li>
-                    )
-                  )}
+                  {[...new Set(users.map((u) => u.role))].sort().map((c) => (
+                    <li
+                      key={c}
+                      className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
+                      onClick={() => setRole(c)}
+                    >
+                      {c}
+                    </li>
+                  ))}
                   <li
-                    className="cursor-pointer text-primary hover:bg-primary/50 p-1 rounded"
+                    className="cursor-pointer text-primary p-1 rounded"
                     onClick={() => setRole("")}
                   >
                     Clear
@@ -98,14 +125,14 @@ const Enrollment = () => {
               </details>
             </div>
 
-            {/* YEAR */}
+            {/* STATUS */}
             <div className="relative w-[132px]">
-              <details className="group">
+              <details>
                 <summary className="bg-white p-2 border rounded-md cursor-pointer">
                   {status || "Status"}
                 </summary>
                 <ul className="absolute left-0 mt-1 w-full bg-white border rounded-md shadow-md p-2 z-20">
-                  {[...new Set(data.map((i) => i.status))].map((s) => (
+                  {["Active", "Locked"].map((s) => (
                     <li
                       key={s}
                       className="cursor-pointer hover:bg-secondary/50 p-1 rounded"
@@ -115,7 +142,7 @@ const Enrollment = () => {
                     </li>
                   ))}
                   <li
-                    className="cursor-pointer text-primary hover:bg-primary/50 p-1 rounded"
+                    className="cursor-pointer text-primary p-1 rounded"
                     onClick={() => setStatus("")}
                   >
                     Clear
@@ -124,16 +151,18 @@ const Enrollment = () => {
               </details>
             </div>
 
-            {/* ADD BUTTON */}
-            <Button onClick={handleAdd} variant="enroll">
+            <Button
+              onClick={() => {
+                setSelectRoleModal(true);
+              }}
+              variant="enroll"
+            >
               + Create User
             </Button>
 
-            {/* REFRESH BUTTON */}
             <img
               src="/icons/refresh.svg"
-              alt="Refresh"
-              className="w-[22px] h-[22px] cursor-pointer hover:rotate-180 transition-transform duration-300"
+              className="w-[22px] h-[22px] cursor-pointer hover:rotate-180 transition"
               onClick={() => {
                 setSearchStudent("");
                 setStatus("");
@@ -147,8 +176,8 @@ const Enrollment = () => {
       {/* TABLE */}
       <div className="flex-1 mt-4">
         <div className="overflow-y-auto max-h-[400px] min-h-[200px] rounded-lg">
-          <table className="min-w-full border border-foreground body-text text-center rounded-t-lg overflow-hidden">
-            <thead className="bg-primary text-textWhite z-10">
+          <table className="min-w-full border text-center rounded-t-lg overflow-hidden">
+            <thead className="bg-primary text-white">
               <tr>
                 <th className="table-style">Fullname</th>
                 <th className="table-style">Email</th>
@@ -160,14 +189,11 @@ const Enrollment = () => {
                 <th className="table-style w-[50px]"></th>
               </tr>
             </thead>
+
             <tbody>
               {filterData.length > 0 ? (
                 filterData.map((person) => (
-                  <tr
-                    key={person.fullname}
-                    // even:bg-white odd:bg-secondary/30
-                    className="body-text bg-textWhite"
-                  >
+                  <tr key={person.id} className="bg-textWhite">
                     <td className="table-style">{person.fullname}</td>
                     <td className="table-style">{person.email}</td>
                     <td className="table-style">{person.role}</td>
@@ -178,10 +204,9 @@ const Enrollment = () => {
                     <td className="table-style cursor-pointer">
                       <img
                         src="/icons/userCog.svg"
-                        alt="Manage"
                         className="w-5 h-5 mx-auto"
                         onClick={() => {
-                          // setSelectedUser(person);
+                          setSelectedUser(person);
                           setShowModal(true);
                         }}
                       />
@@ -190,7 +215,7 @@ const Enrollment = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-4 text-center text-primary">
+                  <td colSpan={8} className="py-4 text-primary">
                     No records found
                   </td>
                 </tr>
@@ -200,69 +225,23 @@ const Enrollment = () => {
         </div>
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-          <div className="bg-white w-[430px] rounded-xl shadow-xl p-[24px] relative">
-            <p className="caption font-semibold mb-4">
-              Update account Information
-            </p>
+      <AccountModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        user={selectedUser}
+        onSave={updateUser}
+      />
 
-            {/* EMAIL */}
-            <div className="mb-3">
-              <label className="block text-sm mb-1">Email:</label>
-              <input type="text" className="w-full border rounded-lg p-2" />
-            </div>
-
-            {/* ROLE */}
-            <div className="mb-3">
-              <label className="block text-sm mb-1">Role:</label>
-              <input type="text" className="w-full border rounded-lg p-2" />
-            </div>
-
-            {/* PASSWORD */}
-            <div className="mb-3">
-              <label className="block text-sm mb-1">Password:</label>
-              <input type="password" className="w-full border rounded-lg p-2" />
-            </div>
-
-            {/* TOGGLE */}
-            {/* <div className="flex items-center gap-2 mb-4">
-              <span>Status</span>
-              <label className="inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-green-600"></div>
-              </label>
-            </div> */}
-
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center gap-2 mb-4">
-                <span>Status</span>
-                <Switch />
-              </div>
-            </div>
-
-            {/* <div className="flex items-center space-x-2">
-              <Switch id="airplane-mode" />
-              <Label htmlFor="airplane-mode">Airplane Mode</Label>
-            </div> */}
-
-            <div className="flex gap-3 justify-center mt-6">
-              <button
-                className="bg-primary text-white px-4 py-2 rounded-lg"
-                onClick={() => setShowModal(false)}
-              >
-                CANCEL
-              </button>
-
-              <button className="bg-secondary text-white px-4 py-2 rounded-lg">
-                CHANGE
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <RoleModal
+        show={selectRoleModal}
+        onClose={() => setSelectRoleModal(false)}
+        user={null}
+        onSave={(newUser) => {
+          setUsers((prev) => [newUser, ...prev]);
+        }}
+      />
     </SectionContainer>
   );
 };
 
-export default Enrollment;
+export default Users;

@@ -1,7 +1,7 @@
 import { db } from "../../../configs/pgConn";
 import { USER_PREPARED_STATEMENTS } from "../prepared_statements/userStatements";
-import { localCache } from "@/lib/localcache";
-import { UserDTO } from "@/lib/schema/userSchema";
+import { localCache } from "../../lib/localcache";
+import { UserDTO } from "../../lib/schema/userSchema";
 
 export const getUserByEmail = async (
   email: string

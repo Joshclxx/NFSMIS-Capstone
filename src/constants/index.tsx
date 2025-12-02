@@ -35,6 +35,12 @@ const ADMIN_NAV: NAV_ITEMS[] = [
     title: "Schedule",
     path: "/admin/dashboard",
     icon: "/icons/schedule.svg",
+    children: [
+      { title: "Academic Calendar", path: "/admin/academic-calendar" },
+      { title: "Room", path: "/" },
+      { title: "Section", path: "/" },
+      { title: "Personnel", path: "/" },
+    ],
   },
   {
     title: "Request",
@@ -45,7 +51,10 @@ const ADMIN_NAV: NAV_ITEMS[] = [
     title: "Accounts",
     path: "/admin/dashboard",
     icon: "/icons/accounts.svg",
-    children: [{ title: "Users", path: "/admin/users" }],
+    children: [
+      { title: "Users", path: "/admin/users" },
+      { title: "Roles", path: "/admin/roles" },
+    ],
   },
 ];
 

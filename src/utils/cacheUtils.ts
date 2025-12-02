@@ -1,4 +1,4 @@
-import { localCache } from "@/lib/localcache";
+import { localCache } from "../lib/localcache";
 
 export function isWithinSlidingWindowLog(
   key: string,
@@ -14,8 +14,6 @@ export function isWithinSlidingWindowLog(
 
   //get the count of members
   const count = localCache.zCard(key);
-
-
 
   //SOFT PUNISHMENT (no expiry increment) they need to wait for ttl.
   if (count >= limit) {
