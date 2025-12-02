@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import SectionContainer from "@/components/SectionContainer";
-import CredentialSection from "@/components/Registration/CredentialSection";
-import Irregular from "@/components/Registration/Irregular";
+import SectionContainer from "../SectionContainer";
+import CredentialSection from "./CredentialSection";
+import Irregular from "./Irregular";
 import { useSearchParams } from "next/navigation";
-import Button from "@/components/Button";
+import Button from "../Button";
 
 export default function RegistrationForm() {
   const router = useRouter();

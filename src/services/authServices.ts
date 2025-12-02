@@ -1,7 +1,7 @@
-import { getUserByEmail } from "@/database/queries/userQueries";
-import { LoginDTO, loginSchema } from "@/lib/schema/authSchema";
-import { setSessionCookie } from "@/utils/authUtils";
-import { isWithinSlidingWindowLog } from "@/utils/cacheUtils";
+import { getUserByEmail } from "../database/queries/userQueries";
+import { LoginDTO, loginSchema } from "../lib/schema/authSchema";
+import { setSessionCookie } from "../utils/authUtils";
+import { isWithinSlidingWindowLog } from "../utils/cacheUtils";
 import bcrypt from "bcryptjs";
 
 const RATE_LIMIT = {

@@ -4,7 +4,7 @@ import React from "react";
 import SectionContainer from "../../../components/SectionContainer";
 import { useRouter } from "next/navigation";
 // import CurriculumHeader from "@/components/Curriculum/CurriculumHeader";
-import CurriculumTable from "@/components/Curriculum/CurriculumTable";
+import CurriculumTable from "@/src/components/curriculum/CurriculumTable";
 
 export default function Curriculum() {
   const router = useRouter();

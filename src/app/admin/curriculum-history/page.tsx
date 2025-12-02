@@ -1,5 +1,5 @@
-import CurriculumHistory from "@/components/Curriculum/CurriculumHistory";
-import SectionContainer from "@/components/SectionContainer";
+import CurriculumHistory from "@/src/components/curriculum/CurriculumHistory";
+import SectionContainer from "@/src/components/SectionContainer";
 import React from "react";
 
 export default function Dashboard() {

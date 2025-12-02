@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import SectionContainer from "@/components/SectionContainer";
+import SectionContainer from "@/src/components/SectionContainer";
 import { useRouter } from "next/navigation";
-import Button from "@/components/Button";
+import Button from "@/src/components/Button";
 
 const Enrollment = () => {
   const router = useRouter();

@@ -61,6 +61,10 @@ body {
   @apply text-[14px];
 }
 
+.sub-caption {
+  @apply text-[12px];
+}
+
 /* NOT FOUND TYPOGRAPHY */
 .not-found-heading {
   @apply text-[36px] font-bold text-primary;
@@ -98,3 +102,53 @@ body {
   @apply py-2 text-[12px];
 }
 /* border-b border-r [For Table Border] */
+
+.modal-scroll {
+  @apply max-h-[80vh] overflow-y-auto;
+}
+
+.modal-scroll::-webkit-scrollbar {
+  @apply w-[6px];
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-300;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+/* CALENDAR STYLE */
+.fc .fc-button {
+  @apply bg-[var(--primary)] text-[var(--textWhite)] border-none rounded-md capitalize shadow-none;
+}
+
+/* Active state */
+.fc .fc-button.fc-button-active {
+  @apply bg-[var(--button)] text-[var(--textWhite)];
+}
+
+/* Prev/Next buttons */
+.fc .fc-prev-button,
+.fc .fc-next-button {
+  @apply bg-[var(--primary)] text-[var(--textWhite)] rounded-md;
+}
+
+/* Keep Add Event button secondary */
+.fc .fc-addEventButton-button {
+  @apply bg-[var(--secondary)] text-[var(--textWhite)] border-none rounded-md;
+}
+
+.fc .fc-button:hover,
+.fc .fc-button:focus,
+.fc .fc-prev-button:hover,
+.fc .fc-next-button:hover,
+.fc .fc-addEventButton-button:hover {
+  @apply bg-[var(--primary)] text-[var(--textWhite)] border-none shadow-none;
+}
+
+/* Keep Add Event hover same color */
+.fc .fc-addEventButton-button:hover {
+  @apply bg-[var(--secondary)] text-[var(--textWhite)];
+}
