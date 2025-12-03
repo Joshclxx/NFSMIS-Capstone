@@ -4,7 +4,7 @@ import {
   ERROR_RESPONSES,
   ErrorType,
 } from "../../../../../configs/apiResponses";
-import { validateBody } from "@/lib/zod/zodValidation";
+import { validateBody } from "@/utils/zodUtils";
 import { createAccountSchema } from "@/lib/zod/schema/accountSchema";
 import { createAccount } from "@/services/accountServices";
 
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       createAccountSchema
     );
     if (errorResponse) return errorResponse;
-    
+
     const result = await createAccount(dataDefs);
     return NextResponse.json({ dataDefs });
   } catch (err) {

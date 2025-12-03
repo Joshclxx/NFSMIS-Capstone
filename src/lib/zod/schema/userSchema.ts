@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export type UserRecord = z.infer<typeof userRecordSchema>;
-export type UserDTO = z.infer<typeof userRecordSchema.omit({passwordHash: true})>;
 export type CreateUser = z.infer<typeof createdUserTableSchema>;
 export const userRecordSchema = z.object({
   userId: z.string(),
@@ -9,10 +8,7 @@ export const userRecordSchema = z.object({
   sex: z.enum(["male", "female", "not-set"]),
   email: z.email(),
   passwordHash: z.string(),
-  role: z.string().transform((val) => {
-    if (val === "not-set" || val === "") return [];
-    return val.split(", ");
-  }),
+  role: z.array(z.string()),
   status: z.string(),
 });
 

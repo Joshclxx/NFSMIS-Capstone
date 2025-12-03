@@ -1,10 +1,13 @@
 import { z } from "zod";
-import { ERROR_RESPONSES } from "../../../configs/apiResponses";
-import { NextResponse } from "next/server";
+import { ERROR_RESPONSES } from "../../configs/apiResponses";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function validateBody<T>(request: Request, schema: z.ZodType<T>) {
+export const validateBody = async <T>(
+  req: NextRequest,
+  schema: z.ZodType<T>
+) => {
   try {
-    const body = await request.json();
+    const body = await req.json();
     const result = schema.safeParse(body);
 
     if (!result.success) {
@@ -30,4 +33,4 @@ export async function validateBody<T>(request: Request, schema: z.ZodType<T>) {
       }),
     };
   }
-}
+};
