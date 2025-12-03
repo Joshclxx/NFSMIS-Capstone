@@ -59,7 +59,7 @@ export const up = (pgm) => {
   );
 
   pgm.createTable(
-    { schema: "auth", name: "user_role_values" },
+    { schema: "auth", name: "user_role_field_values" },
     {
       id: {
         type: "uuid",
@@ -87,8 +87,10 @@ export const up = (pgm) => {
     }
   );
 
-  pgm.createIndex({ schema: "auth", name: "user_role_values" }, ["user_id"]);
-  pgm.createIndex({ schema: "auth", name: "user_role_values" }, [
+  pgm.createIndex({ schema: "auth", name: "user_role_field_values" }, [
+    "user_id",
+  ]);
+  pgm.createIndex({ schema: "auth", name: "user_role_field_values" }, [
     "role_field_id",
   ]);
 };
@@ -99,12 +101,25 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  pgm.dropTable({ schema: "auth", name: "user_role_values" }, { ifExists });
+  pgm.dropIndex(
+    { schema: "auth", name: "user_role_field_values" },
+    "role_field_id",
+    { ifExists: true }
+  );
+    pgm.dropIndex(
+      { schema: "auth", name: "user_role_field_values" },
+      "user_id",
+      { ifExists: true }
+    );
+  pgm.dropTable(
+    { schema: "auth", name: "user_role_field_values" },
+    { ifExists: true }
+  );
   pgm.dropConstraint(
     { schema: "auth", name: "role_fields" },
     "role_fields_field_key_role_id",
-    { ifExists }
+    { ifExists: true }
   );
-  pgm.dropTable({ schema: "auth", name: "role_fields" }, { ifExists });
-  pgm.dropType({ schema: "auth", name: "field_input_type" }, { ifExists });
+  pgm.dropTable({ schema: "auth", name: "role_fields" }, { ifExists: true });
+  pgm.dropType({ schema: "auth", name: "field_input_type" }, { ifExists: true });
 };

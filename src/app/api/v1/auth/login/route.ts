@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getClientIp, hashClientDevice } from "../../../../../utils/authUtils";
-import { login } from "../../../../../../src/services/authServices";
-import { LoginDTO } from "../../../../../lib/schema/authSchema";
+import { getClientIp, hashClientDevice } from "@/utils/authUtils";
+import { login } from "@/services/authServices";
+import { LoginDTO } from "@/lib/zod/schema/authSchema";
 import {
   ERROR_RESPONSES,
   ErrorType,

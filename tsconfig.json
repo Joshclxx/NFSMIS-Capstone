@@ -18,10 +18,8 @@
         "name": "next"
       }
     ],
-    // "paths": {
-    //   "@/*": ["./src/*"]
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
     // "outDir": "dist" // for debugging practice only
   },
