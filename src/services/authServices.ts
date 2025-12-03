@@ -1,9 +1,14 @@
 import { getUserByEmail } from "@/database/queries/userQueries";
-import { LoginDTO, loginSchema } from "@/lib/zod/schema/authSchema";
-import { setSessionCookie } from "@/utils/authUtils";
-import { isWithinSlidingWindowLog } from "@/utils/cacheUtils";
+import { loginSchema } from "@/lib/zod/schema/authSchema";
+import {
+  getClientIp,
+  hashClientDevice,
+  setSessionCookie,
+} from "@/utils/authUtils";
+import { checkLoginRateLimits } from "@/lib/redis/rateLimits";
 import bcrypt from "bcryptjs";
 import { insertSession } from "@/database/queries/sessionQueries";
+import { NextRequest } from "next/server";
 
 const RATE_LIMIT = {
   SWL_GLOBAL_WINDOW: 60,
@@ -14,71 +19,53 @@ const RATE_LIMIT = {
   SWL_EMAIL_LIMIT: 10,
 } as const;
 
-export const login = async (loginData: LoginDTO) => {
-  const { email, password, ip, deviceHash, contentType } = loginData;
-  //keys
-  const globalKey = `swl:auth:login:global`;
-  const ipKey = `swl:auth:login:ip:${ip}`;
-  const deviceKey = `swl:auth:login:device:${deviceHash}`;
-  const emailKey = `swl:auth:login:email:${email}`;
+export const login = async (req: NextRequest) => {
+  //user credentials
+  const ip = getClientIp(req);
+  const deviceHash = hashClientDevice(req);
+  const loginData = await req.json();
+
+  //key defs
+  const globalKey = `auth:read:global`;
+  const ipKey = `auth:read:ip:${ip}`;
+  const deviceKey = `auth:read:device:${deviceHash}`;
 
   //check if the global, ip, or device exceed the limit
-  if (
-    !isWithinSlidingWindowLog(
-      globalKey,
-      RATE_LIMIT.SWL_GLOBAL_WINDOW,
-      RATE_LIMIT.SWL_GLOBAL_LIMIT
-    ) ||
-    !isWithinSlidingWindowLog(
-      ipKey,
-      RATE_LIMIT.SWL_WINDOW,
-      RATE_LIMIT.SWL_IP_LIMIT
-    ) ||
-    !isWithinSlidingWindowLog(
-      deviceKey,
-      RATE_LIMIT.SWL_WINDOW,
-      RATE_LIMIT.SWL_DEVICE_LIMIT
-    )
-  ) {
-    throw new Error("rateLimit");
-  }
+  await checkLoginRateLimits(
+    deviceKey,
+    ipKey,
+    null,
+    globalKey,
+    RATE_LIMIT
+  )
 
-  //type check for variables
-  const { success } = loginSchema.safeParse({
-    email,
-    password,
-    ip,
-    deviceHash,
-    contentType,
-  });
-
-  if (!success) {
-    throw new Error("badRequest");
-  }
-
+  //input validation
+  const contentType = req.headers.get("content-type") || "";
   if (contentType !== "application/json") {
     throw new Error("unsupportedMediaType");
   }
 
-  //find user by email and validate if its already exceed the limit
-  const user = await getUserByEmail(email);
+  const { success } = loginSchema.safeParse(loginData);
+  if (!success) {
+    console.log(success)
+    throw new Error("badRequest");
+  }
 
+  //find user by email
+  const user = await getUserByEmail(loginData.email);
   if (!user) {
     throw new Error("invalidCredentials");
   }
 
-  if (
-    !isWithinSlidingWindowLog(
-      emailKey,
-      RATE_LIMIT.SWL_EMAIL_LIMIT,
-      RATE_LIMIT.SWL_WINDOW
-    )
-  ) {
-    throw new Error("rateLimit");
-  }
+  //check email rate limits
+  const emailKey = `auth:read:email:${loginData.email}`;
+  await checkLoginRateLimits(null, null, emailKey, null, RATE_LIMIT);
 
   //compare passwords
-  const isPasswordMatch = await bcrypt.compare(password, user.passwordHash);
+  const isPasswordMatch = await bcrypt.compare(
+    loginData.password,
+    user.passwordHash
+  );
   if (!isPasswordMatch) {
     throw new Error("invalidCredentials");
   }

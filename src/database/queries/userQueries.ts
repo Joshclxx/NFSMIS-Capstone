@@ -1,29 +1,48 @@
 import { db } from "../../../configs/pgConn";
 import { USER_PREPARED_STATEMENTS } from "../prepared_statements/userStatements";
-import { localCache } from "@/lib/localcache";
 import { EmergencyContactDTO } from "@/lib/zod/schema/accountSchema";
 import { AddressDTO, CreateUser } from "@/lib/zod/schema/userSchema";
-import { UserRecord, userRecordSchema } from "@/lib/zod/schema/userSchema";
+import { userRecordSchema, UserRecord } from "@/lib/zod/schema/userSchema";
 import { PoolClient } from "pg";
+import { redis } from "../../../configs/redisConn";
 
+const ttlSeconds = 3600; //1hr
 export const getUserByEmail = async (
   email: string
 ): Promise<UserRecord | null> => {
-  let user = localCache.get(email) as UserRecord | null;
-  try {
-    if (!user) {
-      const { rows } = await db.query(USER_PREPARED_STATEMENTS.getUserByEmail, [
-        email,
-      ]);
-      user = userRecordSchema.parse(rows[0]);
 
-      if (!user) return null;
-      localCache.set(email, user);
-      return user;
+  const key = `user:read:email:${email}`;
+  try {
+    //get data from cache
+    const start = Date.now()
+    const data = await redis.get(key) as UserRecord;
+    console.log(`Duration: ${Date.now() - start}`)
+    if (data) {
+      //just to make sure it was in a correct format
+      const dataObj = {
+        ...data,
+        role: Array.isArray(data.role) ? data.role : data.role ? [data.role] : [],
+      };
+
+      return userRecordSchema.parse(dataObj);
     }
+
+    //get data from db if data not exit in cache
+    const { rows } = await db.query(
+      USER_PREPARED_STATEMENTS.getUserByEmail,
+      [email]
+    );
+
+    const user: UserRecord = rows[0];
+    if (!user) return null;
+
+    //store data to cache
+    await redis.set(key, user, {ex: ttlSeconds})
+
+    //return data
     return user;
   } catch (err) {
-    console.log(err);
+    console.error("Error fetching user by email:", err);
     throw err;
   }
 };

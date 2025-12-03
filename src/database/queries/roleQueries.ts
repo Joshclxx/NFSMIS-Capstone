@@ -3,9 +3,9 @@ import { db } from "../../../configs/pgConn";
 import ROLE_PREPARED_STATEMENTS from "../prepared_statements/roleStatements";
 import { CreateAccount, RoleDTO, RoleFieldValueDTO } from "@/lib/zod/schema/accountSchema";
 import { makePlaceholder } from "../../../configs/seed";
-export const getRoleNames = async () => {
+export const getRoleData = async () => {
   try {
-    const result = await db.query(ROLE_PREPARED_STATEMENTS.getRoleNames);
+    const result = await db.query(ROLE_PREPARED_STATEMENTS.getAllRoleRecords);
     if (result.rowCount === 0) {
       return null;
     }
@@ -35,8 +35,6 @@ export const assignRole = async (
   try {
     for (let i = 0; i < role.length; i++) {
       rolePlaceholders.push(makePlaceholder(i, columnCount));
-
-      // FIX 2: TypeScript is now happy because it knows CreateAccount['role'] contains objects with roleId
       roleValues.push(userId, role[i].roleId, createdBy);
     }
 
@@ -48,8 +46,7 @@ export const assignRole = async (
 
     if (result.rowCount === 0) return null;
 
-    // FIX 3: Changed 'id' to 'user_id' to match your SQL 'RETURNING user_id'
-    // If you leave this as .id, it returns undefined and throws your "Failed to assign Role" error.
+
     return result.rows[0].user_id;
   } catch (err) {
     console.error("Detailed Role Assignment Error:", err);
