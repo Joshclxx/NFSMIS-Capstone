@@ -134,6 +134,8 @@ export const up = (pgm) => {
       },
     }
   );
+  //add index
+  pgm.createIndex({ schema: "auth", name: "accounts" }, "created_at");
 
   //user addresses
   pgm.createTable(
@@ -171,16 +173,16 @@ export const up = (pgm) => {
         primaryKey: true,
         default: pgm.func("uuid_generate_v4()"),
       },
+      user_id: {
+        type: "uuid",
+        notNull: true,
+        references: "auth.users(id)",
+      },
       session_token: { type: "varchar(255)", notNull: true },
       ip: { type: "inet", notNull: true },
       device_hash: { type: "varchar(255)", notNull: true },
       attempts: { type: "int", notNull: true },
       revoked: { type: "boolean", notNull: true, default: false },
-      account_id: {
-        type: "uuid",
-        notNull: true,
-        references: "auth.accounts(id)",
-      },
       expired_at: { type: "timestamp", notNull: true },
       login_at: {
         type: "timestamp",
@@ -199,10 +201,10 @@ export const up = (pgm) => {
         primaryKey: true,
         default: pgm.func("uuid_generate_v4()"),
       },
-      account_id: {
+      user_id: {
         type: "uuid",
         notNull: true,
-        references: "auth.accounts(id)",
+        references: "auth.users(id)",
         onDelete: "RESTRICT",
       },
       session_token: { type: "varchar(255)", notNull: true },
@@ -333,6 +335,9 @@ export const up = (pgm) => {
   pgm.addConstraint({ schema: "auth", name: "user_roles" }, "user_roles_pkey", {
     primaryKey: ["user_id", "role_id"],
   });
+
+  //add index
+  pgm.createIndex({schema: "auth", name: "user_roles"}, "user_id")
 };
 
 /**
@@ -341,9 +346,14 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
+  pgm.dropIndex(
+    { schema: "auth", name: "user_roles" },
+    "user_id",
+    { ifExists: true }
+  );
   pgm.dropConstraint(
     { schema: "auth", name: "user_roles" },
-    "user_roles_pkey",
+    "user_roles_pkey",  
     {
       ifExists: true,
     }
@@ -365,6 +375,7 @@ export const down = (pgm) => {
   pgm.dropTable({ schema: "auth", name: "session_history" });
   pgm.dropTable({ schema: "auth", name: "sessions" }, { ifExists: true });
   pgm.dropTable({ schema: "auth", name: "addresses" }, { ifExists: true });
+  pgm.dropIndex({schema: "auth", name: "accounts"}, "created_at")
   pgm.dropTable({ schema: "auth", name: "accounts" }, { ifExists: true });
   pgm.dropTable(
     { schema: "auth", name: "emergency_contacts" },

@@ -50,13 +50,17 @@ export function hashClientDevice(req: NextRequest) {
 // };
 
 //sessions utils
-export const createSessionCookie = async (userId: string) => {
+export const createSessionCookie = async () => {
   const token = crypto.randomBytes(64).toString("hex");
-  // const userSessionKey = `user:${userId}:sessions`;
   return token;
 };
 
-export const setSessionCookie = async (token: string) => {
+export const setSessionCookie = async (token: string | null) => {
+
+  if (!token?.trim()) {
+    throw new Error("sessionError")
+  }
+
   (await cookies()).set("session", token, {
     httpOnly: true,
     secure: env.isProd,

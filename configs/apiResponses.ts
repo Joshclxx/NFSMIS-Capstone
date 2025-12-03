@@ -14,13 +14,13 @@ export const ERROR_RESPONSES = {
     message: "Invalid email or password.",
   },
 
-  unauthorized: {
+  unauthenticated: {
     status: 401,
     code: "UNAUTHORIZED",
     message: "Authentication is required to access this resource.",
   },
 
-  forbidden: {
+  unauthorized: {
     status: 403,
     code: "FORBIDDEN",
     message: "You do not have permission to perform this action.",
