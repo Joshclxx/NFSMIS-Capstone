@@ -1,19 +1,14 @@
 import { z } from "zod";
 
 export type UserRecord = z.infer<typeof userRecordSchema>;
+export type UserDTO = z.infer<typeof userRecordSchema.omit({passwordHash: true})>;
 export type CreateUser = z.infer<typeof createdUserTableSchema>;
-//finalize later
 export const userRecordSchema = z.object({
   userId: z.string(),
   fullname: z.string(),
-  birthdate: z.union([z.iso.date(), z.literal("not-set")]),
   sex: z.enum(["male", "female", "not-set"]),
-  phone: z.string(),
   email: z.email(),
   passwordHash: z.string(),
-  address: z.string(),
-  emergencyName: z.string(),
-  emergencyPhone: z.string(),
   role: z.string().transform((val) => {
     if (val === "not-set" || val === "") return [];
     return val.split(", ");

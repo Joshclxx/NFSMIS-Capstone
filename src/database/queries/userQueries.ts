@@ -5,6 +5,7 @@ import { EmergencyContactDTO } from "@/lib/zod/schema/accountSchema";
 import { AddressDTO, CreateUser } from "@/lib/zod/schema/userSchema";
 import { UserRecord, userRecordSchema } from "@/lib/zod/schema/userSchema";
 import { PoolClient } from "pg";
+
 export const getUserByEmail = async (
   email: string
 ): Promise<UserRecord | null> => {
